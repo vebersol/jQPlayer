@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Demo</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="htmlPlayer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			var playerTest;
+			
+			$(document).ready(function() {
+				
+				var options = {
+					subtitle: true
+				}
+				
+				playerTest = $('video').htmlPlayer(options);
+			});
+		</script>
+	</head>
+	<body>
+		<video width="854" height="480">
+			<source src="media/big_buck_bunny_480p_h264.mov"></source>
+			<source src="media/big_buck_bunny_480p_stereo.ogg"></source>
+			Your browser doesn't support this video.
+		</video>
+	</body>
+</html>
