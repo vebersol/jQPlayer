@@ -15,7 +15,31 @@
 				var video = $(this);
 				_this.wrapVideo(video);
 				_this.createControls(video);
-			})
+				_this.bindControls(video);
+			});
+		},
+		
+		bindControls: function(video) {
+			var _this = this;
+			
+			for (var i = 0; i < this.options.controls.length; i++) {
+				switch (this.options.controls[i]) {
+					case 'play':
+						video.parent().find('.' + this.options.prefix + 'play').bind('click', function() {	_this.playPause(video); });
+						break;
+					case 'progress':
+						this.setupProgressBar(video);
+						break;
+					case 'volume':
+						video.parent().find('.' + this.options.prefix + 'volume').bind('click', function() {	_this.setVolume(video); });
+						break;
+					case 'fullscreen':
+						video.parent().find('.' + this.options.prefix + 'fullscreen').bind('click', function() {	_this.toFullscreen(video); });
+						break;
+					default:
+						break;
+				}
+			}
 		},
 		
 		createButton: function(label, className) {
@@ -103,11 +127,42 @@
 			return volume;
 		},
 		
+		getControlsSize: function(video) {
+			var size = 0;
+			var _this = this;
+			
+			video.parent().find('.' + this.options.prefix + 'video-controls').children().each(function() {
+				var element = $(this);
+				if (!element.hasClass(_this.options.prefix + 'progress-bar')) {
+					size += element.outerWidth();
+				}
+			});
+			
+			return size;
+		},
+		
 		incrementId: function() {
 			var id = this.options.videoId + this.idCounter;
 			this.idCounter++;
 			
 			return id;
+		},
+		
+		playPause: function(video) {
+			var videoObj = video.get(0);
+			
+			if (videoObj.paused) {
+				videoObj.play();
+			} else {
+				videoObj.pause();
+			}			
+		},
+		
+		setupProgressBar: function(video) {
+			var progressBar = video.parent().find('.' + this.options.prefix + 'progress-bar');
+			var controlsSize = progressBar.parent().width() - this.getControlsSize(video);
+			
+			progressBar.width(controlsSize);
 		},
 		
 		wrapVideo: function(video) {
