@@ -1,0 +1,42 @@
+.html-player-play {
+	float:left;
+	width:30px;
+	height:30px;
+	background-color:red;
+}
+
+.html-player-play span {
+	display:none;
+}
+
+.html-player-progress-bar {
+	float:left;
+	width:30px;
+	height:30px;
+	background-color:gray;
+}
+
+.html-player-time-display {
+	float:left;
+	width:30px;
+	height:30px;
+	background-color:blue;
+}
+
+.html-player-volume {
+	float:left;
+	width:30px;
+	height:30px;
+	background-color:green;
+}
+
+.html-player-volume-button, .html-player-volume-bar {display:none;}
+
+.html-player-fullscreen {
+	float:left;
+	width:30px;
+	height:30px;
+	background-color:orange;
+}
+
+.html-player-fullscreen span {display:none;}
