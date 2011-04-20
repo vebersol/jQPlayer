@@ -12,7 +12,10 @@
 			$(document).ready(function() {
 				
 				var options = {
-					subtitle: true
+					subtitle: true,
+					onVideoChange: function() {
+						console.log('test');
+					}
 				}
 				
 				playerTest = $('video').htmlPlayer(options);
@@ -23,6 +26,7 @@
 		<video width="854" height="480" controls="controls">
 			<source src="media/big_buck_bunny_480p_h264.mov"></source>
 			<source src="media/big_buck_bunny_480p_stereo.ogg"></source>
+			<track kind="subtitle" src="media/subtitles.srt">
 			Your browser doesn't support this video.
 		</video>
 	</body>
