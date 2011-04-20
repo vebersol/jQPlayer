@@ -66,6 +66,55 @@
 			
 		},
 		
+		changeVideoSource: function(element, video) {
+			var currentVersionEl = $(element).parent().parent().parent();
+			currentVersion = currentVersionEl.attr('class').replace(this.setClass('alternative-versions') + ' ', '');
+			
+			var labelEl = currentVersionEl.find(this.getClass('current-version'));
+			
+			var alternative = $(element).parent().attr('class').replace('.' + this.options.prefix + 'alternative-', '');
+			var version = this.options.alternativeVersions[alternative];
+			
+			labelEl.html(version.label);
+			labelEl.parent().removeClass(currentVersion).addClass(alternative);
+
+			video = video.get(0);
+			video.pause();
+			
+			this.resetVideo(video);
+			
+			video.src = $.browser.safari ? version.source.mp4 : version.source.ogg;
+			
+			video.addEventListener('loadeddata', function() {
+				this.play();
+			}, true);
+		},
+		
+		createAlternative: function(video) {
+			var defaultVersion = this.extendAlternativeVersions(video);
+			
+			var element = $('<div class="'+ this.setClass('alternative-versions') +' standard"></div>');
+			element.append('<span class="'+this.setClass('current-version')+'">'+defaultVersion.standard.label+'</span>')
+			element.append('<ul></ul>');
+			
+			for (alternative in this.options.alternativeVersions) {
+				var alternativeObj = this.options.alternativeVersions[alternative];
+				if (alternativeObj.source) {
+					var li = $('<li class="'+this.getClass('alternative-' + alternative)+'"><a href="javascript:;"><span></span></a></li>');
+					if (alternativeObj.label) {
+						li.find('span').html(alternativeObj.label);
+					}
+
+					var _this = this;
+					li.find('a').bind('click', function() { _this.changeVideoSource(this, video); });
+					
+					element.find('ul').append(li);
+				}
+			}
+			
+			return element;
+		},
+		
 		createButton: function(label, className) {
 			var btn = $('<div>').addClass(this.setClass(className));
 			var label = $('<span>').html(label);
@@ -100,12 +149,50 @@
 						var fullScreenBtn = this.createButton('Fullscreen', 'fullscreen');
 						controls.append(fullScreenBtn);
 						break;
+					case 'alternative':
+						var alternative = this.createAlternative(video);
+						controls.append(alternative);
+						break;
 					default:
+						var customButton = this.createCustomButton(this.options.controls[i]);
+						controls.append(customButton);
 						break;
 				}
 			}
 			
 			wrapper.append(controls);
+		},
+		
+		createCustomButton: function(button) {
+			var buttonElement;
+			var buttonObj = this.options.customButtons[button];
+			if (buttonObj) {
+				if (buttonObj.url) {
+					buttonElement = $('<div><a href="'+buttonObj.url+'"></a></div>');
+					
+					if (buttonObj.label)
+						buttonElement.find('a').html(buttonObj.label);
+						
+					if (buttonObj.className)
+						buttonElement.addClass(buttonObj.className)
+						
+					if (buttonObj.target)
+						buttonElement.find('a').attr('target', buttonObj.target);
+				}
+				else if (buttonObj.onclick) {
+					buttonElement = $('<div><a href="javascript:;"></a></div>')
+					buttonElement.find('a').bind('click', buttonObj.onclick);
+					
+					if (buttonObj.className)
+						buttonElement.addClass(buttonObj.className);
+						
+					if (buttonObj.label)
+						buttonElement.find('a').html(buttonObj.label);
+				}
+				return buttonElement;
+			}
+			
+			return false;
 		},
 		
 		createProgressBar: function() {
@@ -153,6 +240,33 @@
 			volume.append(volumeBar);
 			
 			return volume;
+		},
+		
+		extendAlternativeVersions: function(video) {
+			var _this = this;
+			var mp4, ogg;
+			video.children('source').each(function() {
+				if (this.src.search(_this.options.versionsRegex) >= 0) {
+					mp4 = this.src;
+				}
+				else {
+					ogg = this.src
+				}
+			});
+			
+			defaultVersion = {
+				standard: {
+					source: {
+						mp4: mp4,
+						ogg: ogg
+					},
+					label: 'Standard'
+				}
+			}
+			
+			this.options.alternativeVersions = $.extend(this.options.alternativeVersions, defaultVersion);
+			
+			return defaultVersion;
 		},
 		
 		formatTime: function(seconds) {
@@ -223,6 +337,12 @@
 			}			
 		},
 		
+		resetVideo: function(video) {
+			var controls = $(video).parent().find(this.getClass('video-controls'));
+			controls.find(this.getClass('video-controls') + ', ' + this.getClass('progress-buffer')).css('width', 0);
+			clearInterval(this.bufferInterval);
+		},
+		
 		seekTo: function(xPos, progWrapper, video) {
 			var progressBar = $(this.getClass('progress-play'));
 			var progWidth = Math.max(0, Math.min(1, ( xPos - progWrapper.offset().left ) / progWrapper.width() ));
@@ -230,7 +350,6 @@
 			video.currentTime = progWidth * video.duration;
 			
 			progressBar.width(progWidth * (progWrapper.width()));
-			//this.setCurrentTime(video);
 		},
 		
 		seekVideoSetup: function(video) {
@@ -291,19 +410,17 @@
 			}, false);
 			
 			video.addEventListener('play', 
-				function() { 
+				function() {
 					_this.bufferInterval = setInterval(function() { _this.updateBuffer(video, buffer) }, 1000);
-					// _this.progressInterval = setInterval(function() { _this.updateVideoData(video, scrubbing); }, 100);
-					// _this.updateCurrentTimeInterval = setInterval(function() { _this.updateCurrentTime(video); }, 1000);
+					$(this).parent().find(_this.getClass('play')).removeClass('paused').addClass('playing');
 					_this.seekVideoSetup(video);
 				},
 				true
 			);
 			
-			video.addEventListener('pause', function() {
-				// clearInterval(_this.progressInterval);
-				// clearInterval(_this.updateCurrentTimeInterval);
-			}, true);
+			 video.addEventListener('pause', function() {
+				$(this).parent().find(_this.getClass('play')).removeClass('playing').addClass('paused');
+			 }, true);
 						
 		},
 		
@@ -341,8 +458,8 @@
 		},
 		
 		updateBuffer: function(video, buffer) {
-			if (video.buffered && video.buffered.length == 2) {
-				var width = Math.round(Math.ceil(video.buffered.end(0) / video.buffered.end(1) * 100)) + '%';
+			if (video.buffered && video.buffered.length > 0) {
+				var width = (video.buffered.end(0) / video.duration * 100) + '%';
 				buffer.width(width);
 			}
 			else {
@@ -427,10 +544,21 @@
 	
 	$.fn.htmlPlayer = function(options) {
 		var defaults = {
-			controls: ['play', 'progress', 'time', 'fullscreen'],
+			alternativeVersions: {
+				hd: {
+					source: {
+						mp4: 'http://www.mindwork3d.com/video/640x316.mp4',
+						ogg: 'http://www.mindwork3d.com/video/640x316.ogv'
+					},
+					label: 'HD'
+				}
+			},
+			controls: ['play', 'custom_button_1', 'progress', 'time', 'volume', 'fullscreen', 'custom_button_2', 'alternative'],
 			controlsClass: 'video-controls',
+			customButtons: {},
 			prefix: 'html-player-',
 			timeSeparator: '/',
+			versionsRegex: /mp4|mov/,
 			videoId: 'video-',
 			wrapperClass: 'wrapper'
 		}

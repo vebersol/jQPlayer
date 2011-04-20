@@ -5,6 +5,14 @@
 	background-color:red;
 }
 
+.html-player-play.paused {
+	background-color:#FF0055;
+}
+
+.html-player-play.playing {
+	background-color:green;
+}
+
 .html-player-play span {
 	display:none;
 }
@@ -101,4 +109,40 @@
 	position:absolute;
 	bottom:0;
 	height:100%;
+}
+
+.html-player-alternative-versions {
+	width:30px;
+	height:30px;
+	float:left;
+	background-color:violet;
+	position:relative;
+}
+
+.html-player-alternative-versions > span {
+	display:none;
+}
+
+.html-player-alternative-versions ul {
+	display:none;
+	list-style:none;
+	margin:0;
+	padding:0;
+	width:140px;
+	position:absolute;
+	right:0;
+	bottom:30px;
+	background-color:violet;
+}
+
+.html-player-alternative-versions:hover ul {
+	display:block;
+}
+
+.html-player-alternative-versions ul li {
+}
+
+.html-player-alternative-versions ul li a {
+	display:block;
+	width:100%;
 }
