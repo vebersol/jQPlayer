@@ -1,3 +1,18 @@
+body {
+	margin:0;
+}
+
+.html-player-wrapper {
+	position:relative;
+	overflow:hidden;
+}
+
+.html-player-video-controls {
+	position:absolute;
+	bottom:0;
+	width:100%;
+}
+
 .html-player-play {
 	float:left;
 	width:30px;
@@ -145,4 +160,21 @@
 .html-player-alternative-versions ul li a {
 	display:block;
 	width:100%;
+}
+
+.html-player-subtitle {
+	position:absolute;
+	bottom:50px;
+	color:#FFF;
+	font:bold 20px sans-serif;
+	text-shadow:2px 2px 2px #000;
+	width:100%;
+	text-align:center;
+}
+
+.html-player-subtitle-content {
+	margin:0 20px;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
 }

@@ -13,9 +13,7 @@
 				
 				var options = {
 					subtitle: true,
-					onVideoChange: function() {
-						console.log('test');
-					}
+					floatControls: true
 				}
 				
 				playerTest = $('video').htmlPlayer(options);
@@ -23,7 +21,7 @@
 		</script>
 	</head>
 	<body>
-		<video width="854" height="480" controls="controls">
+		<video width="854" height="480">
 			<source src="media/big_buck_bunny_480p_h264.mov"></source>
 			<source src="media/big_buck_bunny_480p_stereo.ogg"></source>
 			<track kind="subtitle" src="media/subtitles.srt">

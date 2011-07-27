@@ -29,11 +29,12 @@
 			this.subtitleObj.count = 0;
 			this.subtitleObj.current = this.subtitleObj.content[this.subtitleObj.count];
 			
-			var currentTime = parseFloat(video.currentTime.toFixed(1));
+			var currentTime = parseFloat(video.currentTime);
 			
-			while (this.getMinTime() > currentTime && this.getMaxTime() < currentTime) {
-				this.subtitleObj.current = this.subtitleObj.content[this.subtitleObj.current];
-				this.subtitleObj.count++;
+			while (this.getMaxTime() < currentTime) {
+				// this.subtitleObj.current = this.subtitleObj.content[this.subtitleObj.current];
+				// this.subtitleObj.count++;
+				this.updateSubtitle(video);
 				
 				if (this.subtitleObj.count > this.subtitleObj.content.length-1) {
 					this.subtitleObj.count = this.subtitleObj.content.length-1;
@@ -190,7 +191,50 @@
 				}
 			}
 			
+			// clear floats
+			controls.append('<div style="clear:both;width:0;height:0;margin:0;padding:0;"><!-- --></div>');
+			
 			wrapper.append(controls);
+			
+			// if (!this.options.floatControls) {
+				var height = video.height() + controls.height();
+				wrapper.css('height', height);
+			// } else {
+			// 	var _this = this;
+			// 	
+			// 	setTimeout(function() { _this.hideControls(controls) }, 5000);
+			// 	
+			// 	video.bind('mousemove', function() {
+			// 		if (!_this.controlsMoving) {
+			// 			_this.controlsMoving = setTimeout(function() {
+			// 				controls.animate({bottom:0});
+			// 				_this.controlsMoving = false;
+			// 				
+			// 				
+			// 				_this.controlsHide = setTimeout(function() {
+			// 					if (!_this.lockControls) {
+			// 						_this.hideControls(controls);
+			// 					}
+			// 				}, 10000);
+			// 			}, 250);
+			// 		}
+			// 	});
+			// 	
+			// 	controls.bind('mouseleave', function() {
+			// 		_this.controlsMoving = setTimeout(function() {
+			// 			_this.hideControls(controls);
+			// 			// clearTimeout(_this.controlsMoving);
+			// 			_this.lockControls = false;
+			// 			_this.controlsMoving = false;
+			// 		}, 10000);
+			// 	});
+			// 	
+			// 	controls.bind('mouseenter', function() {
+			// 		clearTimeout(_this.controlsHide);
+			// 		_this.lockControls = true;
+			// 		_this.controlsMoving = false;
+			// 	});
+			// }
 		},
 		
 		createCustomButton: function(button) {
@@ -347,6 +391,10 @@
 			}
 		},
 		
+		hideControls: function(controls) {
+			controls.animate({bottom: '-' + controls.height() + 'px'});
+		},
+		
 		incrementId: function() {
 			var id = this.options.videoId + this.idCounter;
 			this.idCounter++;
@@ -453,6 +501,9 @@
 			video.addEventListener('ended', function() {
 				scrubbing.width('100%');
 				clearInterval(_this.progressInterval);
+				
+				this.currentTime = 0;
+				this.pause();
 				
 				if (_this.options.onEnd) {
 					_this.options.onEnd.call();
@@ -596,7 +647,7 @@
 		},
 		
 		updateSubtitle: function(video) {
-			var currentTime = video.currentTime.toFixed(1);
+			var currentTime = video.currentTime;
 			
 			if (currentTime > this.getMinTime() && currentTime < this.getMaxTime()) {
 				this.subtitleObj.current = this.subtitleObj.content[this.subtitleObj.count];
@@ -670,10 +721,8 @@
 		},
 		
 		wrapVideo: function(video) {
-			var _this = this;
 			video.wrap('<div>');
-			video.parent().addClass(_this.setClass(_this.options.wrapperClass)).attr('id', _this.incrementId())
-			
+			video.parent().addClass(this.setClass(this.options.wrapperClass)).attr('id', this.incrementId());
 
 			video.parent().css({
 				width: video.width(),
@@ -696,6 +745,7 @@
 			controls: ['play', 'custom_button_1', 'progress', 'time', 'volume', 'fullscreen', 'custom_button_2', 'alternative'],
 			controlsClass: 'video-controls',
 			customButtons: {},
+			floatControls: false,
 			onEnd: false,
 			onPause: false,
 			onPlay: false,
