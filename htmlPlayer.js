@@ -89,6 +89,12 @@
 			
 		},
 		
+		blockSelection: function() {
+			document.onselectstart = function() {
+				return false;
+			}
+		},
+		
 		changeVideoSource: function(element, video) {
 			var currentVersionEl = $(element).parent().parent().parent();
 			currentVersion = currentVersionEl.attr('class').replace(this.setClass('alternative-versions') + ' ', '');
@@ -154,6 +160,10 @@
 			return btn;
 		},
 		
+		createClearFloats: function() {
+			return '<div style="clear:both;width:0;height:0;margin:0;padding:0;"><!-- --></div>'
+		},
+		
 		createControls: function(video) {
 			var wrapper = video.parent();
 			var controls = $('<div>').addClass(this.setClass(this.options.controlsClass));
@@ -192,7 +202,7 @@
 			}
 			
 			// clear floats
-			controls.append('<div style="clear:both;width:0;height:0;margin:0;padding:0;"><!-- --></div>');
+			controls.append(this.createClearFloats());
 			
 			wrapper.append(controls);
 			
@@ -200,40 +210,6 @@
 				var height = video.height() + controls.height();
 				wrapper.css('height', height);
 			// } else {
-			// 	var _this = this;
-			// 	
-			// 	setTimeout(function() { _this.hideControls(controls) }, 5000);
-			// 	
-			// 	video.bind('mousemove', function() {
-			// 		if (!_this.controlsMoving) {
-			// 			_this.controlsMoving = setTimeout(function() {
-			// 				controls.animate({bottom:0});
-			// 				_this.controlsMoving = false;
-			// 				
-			// 				
-			// 				_this.controlsHide = setTimeout(function() {
-			// 					if (!_this.lockControls) {
-			// 						_this.hideControls(controls);
-			// 					}
-			// 				}, 10000);
-			// 			}, 250);
-			// 		}
-			// 	});
-			// 	
-			// 	controls.bind('mouseleave', function() {
-			// 		_this.controlsMoving = setTimeout(function() {
-			// 			_this.hideControls(controls);
-			// 			// clearTimeout(_this.controlsMoving);
-			// 			_this.lockControls = false;
-			// 			_this.controlsMoving = false;
-			// 		}, 10000);
-			// 	});
-			// 	
-			// 	controls.bind('mouseenter', function() {
-			// 		clearTimeout(_this.controlsHide);
-			// 		_this.lockControls = true;
-			// 		_this.controlsMoving = false;
-			// 	});
 			// }
 		},
 		
@@ -277,6 +253,7 @@
 			
 			progressWrapper.append(progressPlay);
 			progressWrapper.append(progressBuffer);
+			progressWrapper.append(this.createClearFloats());
 			progressBar.append(progressWrapper);
 			
 			return progressBar;
@@ -341,6 +318,26 @@
 			this.options.alternativeVersions = $.extend(this.options.alternativeVersions, defaultVersion);
 			
 			return defaultVersion;
+		},
+		
+		findPosX: function(obj) {
+			obj = obj.get(0);
+			var curleft = obj.offsetLeft;
+			while(obj = obj.offsetParent) {
+				curleft += obj.offsetLeft;
+			}
+			
+			return curleft;
+		},
+		
+		findPosY: function(obj) {
+			obj = obj.get(0);
+			var curtop = obj.offsetTop;
+			while(obj = obj.offsetParent) {
+				curtop += obj.offsetTop;
+			}
+
+			return curtop;
 		},
 		
 		formatTime: function(seconds) {
@@ -437,11 +434,13 @@
 		
 		seekTo: function(xPos, progWrapper, video) {
 			var progressBar = $(this.getClass('progress-play'));
-			var progWidth = Math.max(0, Math.min(1, ( xPos - progWrapper.offset().left ) / progWrapper.width() ));
+			var progWidth = Math.max(0, Math.min(1, ( xPos - this.findPosX(progWrapper) ) / progWrapper.width() ));
 			
 			video.currentTime = progWidth * video.duration;
 			
-			progressBar.width(progWidth * (progWrapper.width()));
+			var width = Math.round(progWidth * (progWrapper.width()));
+			
+			progressBar.width(width);
 		},
 		
 		seekVideoSetup: function(video) {
@@ -450,30 +449,26 @@
 			
 			var _this = this;
 			
-			progWrapper.bind('mousedown', function(event) {
+			progWrapper.get(0).addEventListener('mousedown', function(event) {
 				event.preventDefault();
+				_this.blockSelection();
 				
-				_this.toggleSelection();
-				
-				$('document').bind('mousemove', function(event) {
-					event.preventDefault();
-					_this.seekTo(event.pageX, progWrapper, video);
+				$(document).bind('mousemove', function(e) {
+					e.preventDefault();
+					_this.seekTo(e.pageX, progWrapper, video);
 				});
 				
-				
-				$('document').bind('mouseup', function(event) {
-					event.preventDefault();
-					
-					_this.toggleSelection();
-					
-					$('document').unbind('mousemove');
-					$('document').unbind('mouseup');
+				$(document).bind('mouseup', function(e) {
+					e.preventDefault();
+					_this.unblockSelection();
+					$(document).unbind('mousemove');
+					$(document).unbind('mouseup');
 				});
-			});
+			}, true);
 			
-			progWrapper.bind('mouseup', function(event) {
-				_this.seekTo(event.pageX, progWrapper, video);
-			});
+			progWrapper.get(0).addEventListener('mouseup', function(e) {
+				_this.seekTo(e.pageX, progWrapper, video);
+			}, true);
 		},
 		
 		setClass: function(name) {
@@ -612,21 +607,9 @@
 			alert('TODO');
 		},
 		
-		toggleSelection: function() {
-			var _this = this;
-			
-			if (_this.selectable) {
-				$('body').focus();
-				$('document').bind('selectstart', function() {
-					_this.selectable = false;
-					return false;
-				});
-			}
-			else {
-				$('document').bind('selectstart', function() {
-					_this.selectable = true;
-					return true;
-				});
+		unblockSelection: function() {
+			document.onselectstart = function() {
+				return true;
 			}
 		},
 		
@@ -671,28 +654,26 @@
 		
 		volumeSetup: function(video) {
 			var volWrapper = $(video).parent().find(this.getClass('volume-wrapper'));
-			this.selectable = true;
-			
 			var _this = this;
 			
 			volWrapper.bind('mousedown', function(event) {
 				event.preventDefault();
 				
-				_this.toggleSelection();
+				_this.blockSelection();
 				
-				$('document').bind('mousemove', function(event) {
+				$(document).bind('mousemove', function(event) {
 					event.preventDefault();
 					_this.volumeTo(event.pageY, volWrapper, video);
 				});
 				
 				
-				$('document').bind('mouseup', function(event) {
+				$(document).bind('mouseup', function(event) {
 					event.preventDefault();
 					
-					_this.toggleSelection();
+					_this.unblockSelection();
 					
-					$('document').unbind('mousemove');
-					$('document').unbind('mouseup');
+					$(document).unbind('mousemove');
+					$(document).unbind('mouseup');
 				});
 			});
 			

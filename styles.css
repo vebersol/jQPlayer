@@ -67,6 +67,7 @@ body {
 
 .html-player-progress-wrapper {
 	position:relative;
+	height:30px;
 }
 
 .html-player-progress-play {
