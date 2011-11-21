@@ -249,9 +249,11 @@
 			var progressBar = $('<div>').addClass(this.setClass('progress-bar'));
 			var progressWrapper = $('<div>').addClass(this.setClass('progress-wrapper'));
 			var progressPlay = $('<div>').addClass(this.setClass('progress-play'));
+			var progressPointer = $('<div>').addClass(this.setClass('progress-pointer'));
 			var progressBuffer = $('<div>').addClass(this.setClass('progress-buffer'));
 			
 			progressWrapper.append(progressPlay);
+			progressWrapper.append(progressPointer);
 			progressWrapper.append(progressBuffer);
 			progressWrapper.append(this.createClearFloats());
 			progressBar.append(progressWrapper);
@@ -311,12 +313,12 @@
 						mp4: mp4,
 						ogg: ogg
 					},
-					label: 'Standard'
+					label: 'SD'
 				}
 			}
-			
-			this.options.alternativeVersions = $.extend(this.options.alternativeVersions, defaultVersion);
-			
+			console.log(this.options.alternativeVersions);
+			this.options.alternativeVersions = $.extend(defaultVersion, this.options.alternativeVersions);
+			console.log('2', this.options.alternativeVersions);
 			return defaultVersion;
 		},
 		
@@ -648,8 +650,10 @@
 		},
 		
 		updateVideoData: function(video, scrubbing) {
+			var pointer = scrubbing.parent().find(this.getClass('progress-pointer'));
 			var scrubbingWidth = video.currentTime * 100 / video.duration;
 			scrubbing.width(scrubbingWidth + '%');
+			pointer.css('left', scrubbingWidth + '%');
 		},
 		
 		volumeSetup: function(video) {
@@ -721,6 +725,13 @@
 						ogg: 'http://www.mindwork3d.com/video/640x316.ogv'
 					},
 					label: 'HD'
+				},
+				standard: {
+					source: {
+						mp4: 'media/big_buck_bunny_480p_h264.mov',
+						ogg: 'media/big_buck_bunny_480p_stereo.ogg'
+					},
+					label: 'SD'
 				}
 			},
 			controls: ['play', 'custom_button_1', 'progress', 'time', 'volume', 'fullscreen', 'custom_button_2', 'alternative'],
