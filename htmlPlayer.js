@@ -316,9 +316,9 @@
 					label: 'SD'
 				}
 			}
-			console.log(this.options.alternativeVersions);
+
 			this.options.alternativeVersions = $.extend(defaultVersion, this.options.alternativeVersions);
-			console.log('2', this.options.alternativeVersions);
+
 			return defaultVersion;
 		},
 		
@@ -718,23 +718,7 @@
 	
 	$.fn.htmlPlayer = function(options) {
 		var defaults = {
-			alternativeVersions: {
-				hd: {
-					source: {
-						mp4: 'http://www.mindwork3d.com/video/640x316.mp4',
-						ogg: 'http://www.mindwork3d.com/video/640x316.ogv'
-					},
-					label: 'HD'
-				},
-				standard: {
-					source: {
-						mp4: 'media/big_buck_bunny_480p_h264.mov',
-						ogg: 'media/big_buck_bunny_480p_stereo.ogg'
-					},
-					label: 'SD'
-				}
-			},
-			controls: ['play', 'custom_button_1', 'progress', 'time', 'volume', 'fullscreen', 'custom_button_2', 'alternative'],
+			controls: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative'],
 			controlsClass: 'video-controls',
 			customButtons: {},
 			floatControls: false,
