@@ -716,7 +716,7 @@
 		}
 	}
 	
-	$.fn.htmlPlayer = function(options) {
+	$.fn.jQPlayer = function(options) {
 		var defaults = {
 			controls: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative'],
 			controlsClass: 'video-controls',
