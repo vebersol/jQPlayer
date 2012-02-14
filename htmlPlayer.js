@@ -13,7 +13,6 @@
 			
 			this.videos.each(function() {
 				var video = $(this);
-				_this.wrapVideo(video);
 				_this.createControls(video);
 				_this.bindControls(video);
 				_this.bindEvents(video);
@@ -49,7 +48,7 @@
 			for (var i = 0; i < this.options.controls.length; i++) {
 				switch (this.options.controls[i]) {
 					case 'play':
-						video.parent().find(_this.getClass('play')).bind('click', function() {	_this.playPause(video); });
+						video.parent().find(_this.getClass('play')).bind('click', function() { _this.playPause(video); });
 						break;
 					case 'progress':
 						this.setupProgressBar(video);
@@ -447,30 +446,32 @@
 		
 		seekVideoSetup: function(video) {
 			var progWrapper = $(video).parent().find(this.getClass('progress-wrapper'));
-			this.selectable = true;
-			
-			var _this = this;
-			
-			progWrapper.get(0).addEventListener('mousedown', function(event) {
-				event.preventDefault();
-				_this.blockSelection();
+			if (progWrapper.length > 0) {
+				this.selectable = true;
 				
-				$(document).bind('mousemove', function(e) {
-					e.preventDefault();
+				var _this = this;
+				
+				progWrapper.get(0).addEventListener('mousedown', function(event) {
+					event.preventDefault();
+					_this.blockSelection();
+					
+					$(document).bind('mousemove', function(e) {
+						e.preventDefault();
+						_this.seekTo(e.pageX, progWrapper, video);
+					});
+					
+					$(document).bind('mouseup', function(e) {
+						e.preventDefault();
+						_this.unblockSelection();
+						$(document).unbind('mousemove');
+						$(document).unbind('mouseup');
+					});
+				}, true);
+				
+				progWrapper.get(0).addEventListener('mouseup', function(e) {
 					_this.seekTo(e.pageX, progWrapper, video);
-				});
-				
-				$(document).bind('mouseup', function(e) {
-					e.preventDefault();
-					_this.unblockSelection();
-					$(document).unbind('mousemove');
-					$(document).unbind('mouseup');
-				});
-			}, true);
-			
-			progWrapper.get(0).addEventListener('mouseup', function(e) {
-				_this.seekTo(e.pageX, progWrapper, video);
-			}, true);
+				}, true);
+			}
 		},
 		
 		setClass: function(name) {
@@ -552,26 +553,28 @@
 			var _this = this;
 			this.subtitleObj = {}
 			
-			var src = video.find('track').attr('src');
+			var src = video.find('track').attr('src');			
 			
-			$.ajax({
-				url: src,
-				success: function(data) {
-					_this.subtitleObj.loaded = true;
-					_this.subtitlesToArray(data);
-					_this.subtitleObj.count = 0;
-					_this.subtitleObj.current = _this.subtitleObj.content[_this.subtitleObj.count];
-				}
-			});
-			
-			var subtitleEl = $('<div id="subtitle-'+video.parent().attr('id')+'" class="'+this.setClass('subtitle')+'"></div>');
-			var subtitleContent = $('<div class="'+this.setClass('subtitle-content')+'"></div>');
-			
-			subtitleEl.append(subtitleContent);
-			
-			this.subtitleObj.element = subtitleEl;
-			
-			video.parent().append(this.subtitleObj.element);
+			if (src) {
+				$.ajax({
+					url: src,
+					success: function(data) {
+						_this.subtitleObj.loaded = true;
+						_this.subtitlesToArray(data);
+						_this.subtitleObj.count = 0;
+						_this.subtitleObj.current = _this.subtitleObj.content[_this.subtitleObj.count];
+					}
+				});
+				
+				var subtitleEl = $('<div id="subtitle-'+video.parent().attr('id')+'" class="'+this.setClass('subtitle')+'"></div>');
+				var subtitleContent = $('<div class="'+this.setClass('subtitle-content')+'"></div>');
+				
+				subtitleEl.append(subtitleContent);
+				
+				this.subtitleObj.element = subtitleEl;
+				
+				video.parent().append(this.subtitleObj.element);
+			}
 		},
 		
 		setupTime: function(video) {
@@ -703,16 +706,6 @@
 			else {
 				volumeButton.removeClass('muted');
 			}
-		},
-		
-		wrapVideo: function(video) {
-			video.wrap('<div>');
-			video.parent().addClass(this.setClass(this.options.wrapperClass)).attr('id', this.incrementId());
-
-			video.parent().css({
-				width: video.width(),
-				height: video.height()
-			});
 		}
 	}
 	
@@ -732,7 +725,7 @@
 			timeSeparator: '/',
 			versionsRegex: /mp4|mov/,
 			videoId: 'video-',
-			wrapperClass: 'wrapper'
+			wrapperSelector: $('#html-player-wrapper')
 		}
 		var options = $.extend(defaults, options);
 		return new VideoPlayer(this, options);
