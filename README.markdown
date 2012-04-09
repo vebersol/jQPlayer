@@ -108,3 +108,20 @@ A saparator to be used between current time and duration time.
 Video element will assume an id like 'videoId' + incremental integer.
 *Default value: 'video-'*
 *Default value: 'html-player-'*
+
+# Developers
+
+This plugin has been developed by [Vinícius Ebersol][ve].
+
+[Thiago Reis][tr] designed the concept and final layout of this player.
+
+# Contributing
+
+If you want to contribute, please feel free to contribute to the project.
+
+# Reporting bugs
+
+Any bug report, please, see this link: https://github.com/vebersol/jQPlayer/issues
+
+[ve]: http://vebersol.net
+[tr]: http://www.thiagoreis.com/

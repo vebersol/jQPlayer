@@ -775,7 +775,7 @@
 			controls: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative'],
 			controlsClass: 'video-controls',
 			customButtons: {},
-			defaultVideo: 'default',
+			defaultVideo: 'standard',
 			floatControls: false,
 			onEnd: false,
 			onPause: false,

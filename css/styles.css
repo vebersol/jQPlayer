@@ -14,11 +14,6 @@ body {
 	margin:0;
 }
 
-.html-player-wrapper {
-	position:relative;
-	overflow:hidden;
-}
-
 .html-player-video-controls {
 	position:absolute;
 	bottom:0;
