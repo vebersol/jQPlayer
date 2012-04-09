@@ -52,8 +52,8 @@ This method is used to build the player.
 ##### Options
 
 * **controls:** (Array)
-Set and order all available and custom controls.
-By removing one of them, you will hide it from player.
+Set and order all available and custom controls.  
+By removing one of them, you will hide it from player.  
 *Default value: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative']*
 
 * **controlsClass:** (String)
