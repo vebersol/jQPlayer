@@ -330,33 +330,6 @@
 			return volume;
 		},
 		
-		/*extendAlternativeVersions: function(video) {
-			var _this = this;
-			var mp4, ogg;
-			video.children('source').each(function() {
-				if (this.src.search(_this.options.versionsRegex) >= 0) {
-					mp4 = this.src;
-				}
-				else {
-					ogg = this.src
-				}
-			});
-			
-			defaultVersion = {
-				standard: {
-					source: {
-						mp4: mp4,
-						ogg: ogg
-					},
-					label: 'SD'
-				}
-			}
-
-			this.options.alternativeVersions = $.extend(defaultVersion, this.options.alternativeVersions);
-
-			return defaultVersion;
-		},*/
-		
 		findPosX: function(obj) {
 			obj = obj.get(0);
 			var curleft = obj.offsetLeft;
@@ -812,9 +785,7 @@
 			onVideoChange: false,
 			prefix: 'html-player-',
 			timeSeparator: '/',
-			versionsRegex: /mp4|mov/,
-			videoId: 'video-',
-			wrapperSelector: $('#html-player-wrapper')
+			videoId: 'video-'
 		}
 		var options = $.extend(defaults, options);
 		return new VideoPlayer(this, options);
