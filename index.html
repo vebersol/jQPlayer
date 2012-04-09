@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-		<title>Demo</title>
+		<meta name="description" content="jQPlayer is a HTML 5 video player plugin to jQuery" />
+		<meta name="keywords" content="jqplayer, html 5, jquery, plugin" />
+		<meta name="author" content="Vinícius Ebersol" />
+		<meta charset="UTF-8" />
+		<title>jQPlayer Demo</title>
 		<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
 		<script src="jquery.jqplayer-0.5.0.js" type="text/javascript"></script>
@@ -13,58 +16,46 @@
 				
 				var options = {
 					subtitle: true,
-					floatControls: true,
 					controls: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative'],
-					/*customButtons: {
-						'custom_button_1': {
-							url: 'http://google.com',
-							label: 'TEST',
-							className: 'custom-button-1',
-							target: '_blank',
-						},
-						'custom_button_2': {
-							label: 'TEST',
-							className: 'custom-button-1',
-							onclick: function() {
-								alert('test');
-							}
-						}
-					},*/
 					videos: {
-						hd: {
+						p720: {
 							source: {
-								mp4: 'http://www.mindwork3d.com/video/640x316.mp4',
-								webm: 'http://video-js.zencoder.com/oceans-clip.webm'
+								mp4: 'media/sample720p.mp4',
+								webm: 'media/sample720p.webm'
 							},
-							label: 'HD',
+							label: '720p',
 							subtitle: 'media/subtitles.srt'
 						},
-						sd: {
+						p360: {
 							source: {
-								mp4: 'media/big_buck_bunny_480p_h264.mov',
-								webm: 'http://www.siemens.com/entry/cc/features/answers2011HTML/html/_stories/airportidyll/_media/airportidyll_720p.webm'
+								mp4: 'media/sample360p.mp4',
+								webm: 'media/sample360p.webm'
 							},
-							label: 'SD'
+							label: '360p',
+							subtitle: 'media/subtitles.srt'
 						}
 					},
-						defaultVideo: 'hd'
+					defaultVideo: 'p360'
 				};
 				
 				playerTest = $('#video-element').jQPlayer(options);
 			});
 		</script>
+		<style type="text/css" media="screen">
+			body {font:normal 14px Helvetica, Arial, sans-serif;}
+			h1 {text-align:center;}
+			#video-element {margin:0 auto;}
+		</style>
 	</head>
 	<body>
-		<!--<div class="html-player-wrapper">
-			<video width="854" height="480">
-				<source src="media/big_buck_bunny_480p_h264.mov"></source>
-				<source src="media/big_buck_bunny_480p_stereo.ogg"></source>
-				<track kind="subtitle" src="media/subtitles.srt">
-				Your browser doesn't support this video.
-			</video>
-		</div>-->
-		<div id="video-element">
-			<!-- -->
-		</div>
+		<div style="text-align:center;"><img src="img/logo.jpg" alt="jQPlayer"></div>
+		<h1>jQPlayer - HTML 5 Video Player Plugin for jQuery</h1>
+		
+		<p>To download this plugin, go to <a href="http://github.com/vebersol/jQPlayer/">http://github.com/vebersol/jQPlayer/</a></p>
+		
+		<div id="video-element"><!-- --></div>
+		
+		<p>Developed by: <a href="http://vebersol.net">Vinícius Ebersol</a></p>
+		<p>Layout and concept: <a href="http://www.thiagoreis.com/">Thiago Reis</a></p>
 	</body>
 </html>

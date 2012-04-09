@@ -1,311 +1,91 @@
 1
-00:00:05,240 --> 00:00:08,040
-My husband and I grow orchids, 	
+00:00:00,960 --> 00:00:03,580
+So, if you have been paying attention to chatter on the Internet these
 
 2
-00:00:09,010 --> 00:00:12,050
-but this could be our last year. 
+00:00:03,580 --> 00:00:08,710
+days, especially geeky chatter, you may have heard the term HTML5.
 
 3
-00:00:14,060 --> 00:00:15,170
-We've had a really difficult time.	
+00:00:08,710 --> 00:00:09,750
+Well what is that?
 
 4
-00:00:16,030 --> 00:00:17,070
-This is our story.
+00:00:09,750 --> 00:00:14,670
+HTML stands for, uhhh forget it, but its the behind the scenes coding language that makes
 
 5
-00:00:23,150 --> 00:00:25,180
-Orchids are like children.
+00:00:14,670 --> 00:00:17,050
+us able to see stuff online.
 
 6
-00:00:25,180 --> 00:00:29,050
-We spend a lot of energy looking after them,
+00:00:17,050 --> 00:00:21,070
+Since the original HTML was invented with the web over 20 years ago, it has gone through
 
 7
-00:00:29,050 --> 00:00:31,110
-always hoping that they will bloom and be beautiful.
+00:00:21,070 --> 00:00:25,329
+many updates, but its been more than a decade since the last one, and in web terms that&#39;s
 
 8
-00:00:31,110 --> 00:00:32,070
-So …
+00:00:25,329 --> 00:00:29,689
+pretty much forever. I mean like 10 years ago we all still loved our digital watches.
 
 9
-00:00:32,070 --> 00:00:34,080
-every year,
+00:00:29,689 --> 00:00:32,269
+&quot;Oh wow, a calculator!&quot;
 
 10
-00:00:34,080 --> 00:00:38,230
-when the flowers finally open,
+00:00:32,260 --> 00:00:34,260
+So HTML has been a few steps behind changes
 
 11
-00:00:38,230 --> 00:00:40,110
-it makes us really happy.
+00:00:34,260 --> 00:00:38,370
+on the web for quite some time. For example, when video came along, there was no way to
 
 12
-00:00:40,120 --> 00:00:42,100
-This is my father.
+00:00:38,370 --> 00:00:42,760
+integrate it naturally into HTML, so different companies developed their own video players
 
 13
-00:00:43,050 --> 00:00:46,080
-He came from Hunan to help us sell the flowers.
+00:00:42,760 --> 00:00:47,620
+to work around it. These worked OK, but they all were all external plugins, meaning that
 
 14
-00:00:50,240 --> 00:00:52,210
-You've done it all wrong!
+00:00:47,620 --> 00:00:52,240
+you had to download them, and this was, well, annoying and potentially risky.
 
 15
-00:00:54,080 --> 00:00:56,160
-Oh, no wonder.  He was drinking Baijiu today.
+00:00:52,240 --> 00:00:54,800
+HTML5 is adding capabilities to deal with
 
 16
-00:01:00,020 --> 00:01:03,170
-This is our cat, that has yet to catch a single rat.
+00:00:54,800 --> 00:00:59,960
+this stuff - like video - right into its code, so that plugins hopefully won&#39;t be necessary.
 
 17
-00:01:05,020 --> 00:01:06,060
-And this is me.
+00:00:59,960 --> 00:00:64,140
+And there&#39;s plans to add a bunch more cool stuff that previously was tricky or even impossible
 
 18
-00:01:07,020 --> 00:01:10,000
-Chinese New Year is our most important festival.
+00:00:64,140 --> 00:00:69,470
+to implement with HTML alone. The overall hope is that some day it will create a standard,
 
 19
-00:01:10,000 --> 00:01:13,070
-Everybody buys beautiful flowers to celebrate.
+00:00:69,470 --> 00:00:72,530
+consistent web experience across all devices and browsers.
 
 20
-00:01:14,000 --> 00:01:17,110
-This year, Winter has been much colder than usual,
+00:00:72,530 --> 00:00:76,310
+HTML5 is still being developed, and as of
 
 21
-00:01:18,000 --> 00:01:20,170
-and I am even more afraid of power cuts.
+00:00:76,310 --> 00:00:82,490
+early 2012 isn&#39;t 100% finalized, but the browsers are starting to implement some of its features,
 
 22
-00:01:21,060 --> 00:01:22,070
-Now …
+00:00:82,490 --> 00:00:89,880
+and together they are working hard to get HTML5 fully ready for someday in the future.
 
 23
-00:01:22,080 --> 00:01:25,110
-all of our equipment relies on electricity -
-
-24
-00:01:25,110 --> 00:01:28,050
-from the fans and heaters
-
-25
-00:01:28,050 --> 00:01:31,070
-to the fly nets and awnings -
-
-26
-00:01:31,070 --> 00:01:34,200
-everything depends on electricity.
-
-27
-00:02:00,240 --> 00:02:03,230
-My husband is a bit paranoid.
-
-28
-00:02:04,180 --> 00:02:07,060
-It has been a really cold year,
-
-29
-00:02:07,160 --> 00:02:10,080
-so he has nightmares of power cuts.
-
-30
-00:02:10,220 --> 00:02:12,050
-Two years ago,
-
-31
-00:02:12,050 --> 00:02:16,100
-we lost 20,000 orchids in a single day.
-
-32
-00:02:16,100 --> 00:02:20,060
-He spent a fortune on an oil-powered generator,
-
-33
-00:02:20,060 --> 00:02:21,190
-just in case.
-
-34
-00:02:21,190 --> 00:02:24,150
-Now that we have a full stock,
-
-35
-00:02:24,150 --> 00:02:29,000
-a day-long power cut like that could finish us.
-
-36
-00:02:29,000 --> 00:02:31,100
-So he still wakes up in the middle of the night,
-
-37
-00:02:31,100 --> 00:02:33,010
-scared that our business is gone.
-
-38
-00:02:41,100 --> 00:02:46,030
-It's better for me to sell lots of orchids at once.
-
-39
-00:02:46,030 --> 00:02:50,200
-But most of our customers are just normal people,
-
-40
-00:02:50,200 --> 00:02:54,040
-wanting one or two pots for their home.
-
-41
-00:02:55,030 --> 00:02:59,130
-Our wholesale customers simply aren't coming.
-
-42
-00:03:00,230 --> 00:03:04,040
-We keep calling them,
-
-43
-00:03:04,130 --> 00:03:09,100
-asking when they will come,
-
-44
-00:03:09,100 --> 00:03:15,150
-but they haven't responded yet,
-
-45
-00:03:15,160 --> 00:03:17,150
-And so we wait.
-
-46
-00:03:18,070 --> 00:03:21,010
-In this industry, the selling period is very brief.
-
-47
-00:03:21,010 --> 00:03:23,120
-It's all concentrated just before Chinese New Year.
-
-48
-00:03:23,180 --> 00:03:27,120
-So this is our most important time.
-
-49
-00:03:27,120 --> 00:03:29,140
-We work so hard all year,
-
-50
-00:03:29,140 --> 00:03:32,230
-just to be able to sell the flowers now.
-
-51
-00:03:32,230 --> 00:03:35,160
-So this is an incredibly critical time for us.
-
-52
-00:03:36,030 --> 00:03:38,090
-We still have so many flowers in the greenhouse.
-
-53
-00:03:38,130 --> 00:03:42,110
-I am getting really worried that we won't sell them all.
-
-54
-00:03:42,220 --> 00:03:44,230
-Although I'm reluctant to admit it,
-
-55
-00:03:44,230 --> 00:03:46,200
-I am worried too.
-
-56
-00:03:47,000 --> 00:03:59,120
-Chinese New year is just two days away,
-
-57
-00:03:49,160 --> 00:03:52,050
-and although this year we have more flowers than ever,
-
-58
-00:03:52,050 --> 00:03:53,210
-it's been very cold.
-
-59
-00:03:54,050 --> 00:03:56,000
-And we haven't been able to sell them.
-
-60
-00:03:56,080 --> 00:03:58,240
-The past couple of days have been a bit warmer,
-
-61
-00:03:59,050 --> 00:04:02,160
-but we could still lose it all and have to move back to Taiwan.
-
-62
-00:04:12,040 --> 00:04:14,010
-Which one do you want?
-
-63
-00:04:19,200 --> 00:04:20,230
-Get me that list!
-
-64
-00:04:22,070 --> 00:04:24,040
-seven, eight, nine, ten …
-
-65
-00:04:27,050 --> 00:04:29,160
-Here, you take her.
-
-66
-00:04:31,000 --> 00:04:32,070
-35 yuan each!
-
-67
-00:04:42,130 --> 00:04:45,100
-You can buy a few more pots - no problem!
-
-68
-00:04:46,150 --> 00:04:48,060
-Fill the truck!  Fill the truck!
-
-69
-00:04:48,080 --> 00:04:49,130
-Don't waste the petrol money!
-
-70
-00:05:01,050 --> 00:05:04,110
-The flowers are selling now because the weather is better,
-
-71
-00:05:04,170 --> 00:05:06,130
-and we've also had no problems with the electricity.
-
-72
-00:05:07,120 --> 00:05:10,200
-I'm over the moon!  So so happy!
-
-73
-00:05:16,080 --> 00:05:20,000
-I remember when we sold our last flower.
-
-74
-00:05:20,020 --> 00:05:22,060
-I really couldn't believe we had done it.
-
-75
-00:05:22,060 --> 00:05:25,040
-I thought this was going to be our last year.
-
-76
-00:05:37,220 --> 00:05:39,160
-Cheers!
-
-77
-00:05:54,200 --> 00:05:57,010
-My husband's oil-powered generator.
-
-78
-00:05:57,040 --> 00:05:59,050
-We haven't used it yet.
+00:00:89,880 --> 00:00:93,880
+Video by Topic Simple

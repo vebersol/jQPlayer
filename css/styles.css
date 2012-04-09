@@ -10,10 +10,6 @@
 
 }
 
-body {
-	margin:0;
-}
-
 .html-player-video-controls {
 	position:absolute;
 	bottom:0;
@@ -29,7 +25,7 @@ body {
 	background:url('../img/sprite.png') -10px -10px no-repeat;
 }
 
-.html-player-play:hover {
+.html-player-play.hover {
 	background-position:-71px -10px;
 }
 
@@ -37,7 +33,7 @@ body {
 	background-position:-10px -10px;
 }
 
-.html-player-play.paused:hover {
+.html-player-play.paused.hover {
 	background-position:-71px -10px;
 }
 
@@ -45,7 +41,7 @@ body {
 	background-position:-10px -257px;
 }
 
-.html-player-play.playing:hover {
+.html-player-play.playing.hover {
 	background-position:-71px -257px;
 }
 
@@ -80,7 +76,7 @@ body {
 	background:url('../img/sprite.png') -10px -63px no-repeat;
 }
 
-.html-player-volume:hover {
+.html-player-volume.hover {
 	background-position:-71px -63px;
 }
 
@@ -91,7 +87,7 @@ body {
 	background:url('../img/sprite.png') -10px -106px no-repeat;
 }
 
-.html-player-fullscreen:hover {
+.html-player-fullscreen.hover {
 	background-position:-71px -106px;
 }
 
@@ -101,7 +97,7 @@ body {
 	background-position:-131px -151px;
 }
 
-.html-player-fullscreen.fullscreen:hover {
+.html-player-fullscreen.fullscreen.hover {
 	background-position:-131px -195px;
 }
 
@@ -149,7 +145,7 @@ body {
 	background:url('../img/sprite.png') -132px -63px no-repeat;
 }
 
-.html-player-volume-button.muted:hover {
+.html-player-volume.hover .html-player-volume-button.muted {
 	background-position:-132px -107px;
 	
 }
@@ -158,7 +154,7 @@ body {
 	display:none;
 }
 
-.html-player-volume:hover .html-player-volume-bar {
+.html-player-volume.hover .html-player-volume-bar {
 	display:block;
 	position:absolute;
 	bottom:33px;
@@ -225,7 +221,7 @@ body {
 	z-index:10;
 }
 
-.html-player-alternative-versions:hover ul {
+.html-player-alternative-versions.hover ul {
 	display:block;
 }
 
@@ -248,8 +244,8 @@ body {
 .html-player-subtitle {
 	position:absolute;
 	bottom:50px;
-	color:#FFF;
-	font:bold 20px sans-serif;
+	color:yellow;
+	font:normal 14px sans-serif;
 	text-shadow:2px 2px 2px #000;
 	width:100%;
 	text-align:center;
@@ -267,4 +263,4 @@ body {
 	width:30px;
 }
 
-#video-element {position:relative; width:640px; height:266px;}
+#video-element {position:relative; width:640px; height:360px;}

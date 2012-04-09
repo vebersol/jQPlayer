@@ -86,11 +86,27 @@
 					_this.setupProgressBar();
 				});
 			}
-			else {
+			else if ($.browser.mozilla) {
 				$(document).bind('mozfullscreenchange', function() {
 					_this.setupProgressBar();
 				});
 			}
+			
+			var enter = function() {
+				$(this).addClass('hover');
+			}
+			
+			var leave = function() {
+				$(this).removeClass('hover');
+			}
+			
+			$(this.getClass('play')).hover(enter, leave);
+			
+			$(this.getClass('volume')).hover(enter, leave);
+			
+			$(this.getClass('fullscreen')).hover(enter, leave);
+			
+			$(this.getClass('alternative-versions')).hover(enter, leave);
 			
 		},
 		
@@ -654,7 +670,7 @@
 					this.setupProgressBar();
 				}
 				
-				$(this.getClass('fullscreen')).addClass('fullscreen');
+				$(this.getClass('fullscreen')).addClass('fullscreen').removeClass('hover');
 				
 				this.fullscreen = true;
 			}
@@ -666,7 +682,7 @@
 					document.mozCancelFullScreen();
 				}
 				
-				$(this.getClass('fullscreen')).removeClass('fullscreen');
+				$(this.getClass('fullscreen')).removeClass('fullscreen').removeClass('hover');
 				
 				this.fullscreen = false;
 			}
