@@ -251,6 +251,10 @@
 	text-align:center;
 }
 
+#video-element.p720 .html-player-subtitle {
+	font-size:28px;
+}
+
 .html-player-subtitle-content {
 	margin:0 20px;
 	user-select: none;
