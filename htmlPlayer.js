@@ -81,6 +81,16 @@
 			
 			}, true);
 			
+			if ($.browser.webkit) {
+				$(document).bind('webkitfullscreenchange', function() {
+					_this.setupProgressBar();
+				});
+			}
+			else {
+				$(document).bind('mozfullscreenchange', function() {
+					_this.setupProgressBar();
+				});
+			}
 			
 		},
 		
@@ -90,28 +100,47 @@
 			}
 		},
 		
-		changeVideoSource: function(element, video) {
+		changeVideoSource: function(element) {
 			var currentVersionEl = $(element).parent().parent().parent();
 			currentVersion = currentVersionEl.attr('class').replace(this.setClass('alternative-versions') + ' ', '');
 			var labelEl = currentVersionEl.find(this.getClass('current-version'));
 			var alternative = $(element).parent().attr('class').replace('.' + this.options.prefix + 'alternative-', '');
 			
 			if (currentVersion != alternative) {
-				var version = this.options.alternativeVersions[alternative];
-			
+				var version = this.options.videos[alternative];
+				
 				labelEl.html(version.label);
 				labelEl.parent().removeClass(currentVersion).addClass(alternative);
 
-				video = video.get(0);
+				video = this.video.get(0);
 				video.pause();
 			
-				this.resetVideo(video);
-			
-				video.src = $.browser.safari ? version.source.mp4 : version.source.ogg;
+				this.resetVideo();
+				video.src = this.getVideoSource(version);
+				
+				var ul = $(this.getClass('alternative-versions')).find('ul');
+				ul.html('');
+				
+				for (alternative in this.options.videos) {
+					var alternativeObj = this.options.videos[alternative];
+					if (alternativeObj != version) {
+						if (alternativeObj.source) {
+							var li = $('<li class="'+this.getClass('alternative-' + alternative)+'"><a href="javascript:;"><span></span></a></li>');
+							if (alternativeObj.label) {
+								li.find('span').html(alternativeObj.label);
+							}
+
+							var _this = this;
+							li.find('a').bind('click', function() { _this.changeVideoSource(this); });
+							
+							ul.append(li);
+						}
+					}
+				}
 			
 				var _this = this;
 			
-				video.addEventListener('loadeddata', function() {
+				video.addEventListener('loadedmetadata', function() {
 					this.play();
 				
 					if (_this.options.onVideoChange) {
@@ -123,7 +152,7 @@
 		},
 		
 		createAlternative: function() {
-			var element = $('<div class="'+ this.setClass('alternative-versions') +' standard"></div>');
+			var element = $('<div class="'+ this.setClass('alternative-versions') +'"></div>');
 			element.append('<span class="'+this.setClass('current-version')+'">'+this.defaultVideo.label+'</span>')
 			element.append('<ul></ul>');
 			
@@ -138,10 +167,13 @@
 						}
 
 						var _this = this;
-						li.find('a').bind('click', function() { _this.changeVideoSource(this, video); });
+						li.find('a').bind('click', function() { _this.changeVideoSource(this); });
 					
 						element.find('ul').append(li);
 					}
+				}
+				else {
+					element.addClass(alternative);
 				}
 			}
 			
@@ -267,8 +299,8 @@
 		createVideoElement: function() {
 			this.video = $('<video>Your browser doesn\'t support video tag.</video>');
 			this.video.attr('src', this.getVideoSource());
-			this.video.width(this.selector.width());
-			this.video.height(this.selector.height());
+			this.video.width('100%');
+			this.video.height('100%');
 			
 			if (this.defaultVideo.subtitle) {
 				this.video.append('<track src="'+this.defaultVideo.subtitle+'"></track>');
@@ -405,16 +437,20 @@
 			}
 		},
 		
-		getVideoSource: function() {
+		getVideoSource: function(videoObj) {
+			if (!videoObj) {
+				videoObj = this.defaultVideo;
+			}
+			
 			if ($.browser.safari) {
-				return this.defaultVideo.source.mp4;
+				return videoObj.source.mp4;
 			}
 			
-			if (this.defaultVideo.source.ogg) {
-				return this.defaultVideo.source.ogg;
+			if (videoObj.source.ogg) {
+				return videoObj.source.ogg;
 			}
 			
-			return this.defaultVideo.source.webm;
+			return videoObj.source.webm;
 		},
 		
 		hideControls: function(controls) {
@@ -456,9 +492,8 @@
 			}			
 		},
 		
-		resetVideo: function(video) {
-			var controls = $(video).parent().find(this.getClass('video-controls'));
-			controls.find(this.getClass('video-controls') + ', ' + this.getClass('progress-buffer')).css('width', 0);
+		resetVideo: function() {
+			this.controls.find(this.getClass('video-controls') + ', ' + this.getClass('progress-buffer')).css('width', 0);
 			clearInterval(this.bufferInterval);
 		},
 		
@@ -637,8 +672,27 @@
 		},
 		
 		toFullscreen: function() {
-			//TODO
-			alert('TODO');
+			if (!this.fullscreen) {
+				if ($.browser.webkit) {
+					this.selector.get(0).webkitRequestFullScreen();
+				}
+				else if ($.browser.mozilla) {
+					this.selector.get(0).mozRequestFullScreen();
+					this.setupProgressBar();
+				}
+				
+				this.fullscreen = true;
+			}
+			else {
+				if ($.browser.webkit) {
+					document.webkitCancelFullScreen();
+				}
+				else if ($.browser.mozilla) {
+					document.mozCancelFullScreen();
+				}
+				
+				this.fullscreen = false;
+			}
 		},
 		
 		unblockSelection: function() {
