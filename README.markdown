@@ -1,3 +1,5 @@
+![logo]
+
 # jQPlayer - HTML 5 Video Player Plugin for jQuery
 
 A jQuery plugin to build custom HTML5 video players.
@@ -124,3 +126,4 @@ Any bug report, please, see this link: https://github.com/vebersol/jQPlayer/issu
 
 [ve]: http://vebersol.net
 [tr]: http://www.thiagoreis.com/
+[logo]: http://vebersol.net/logo.jpg
