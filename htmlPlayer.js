@@ -681,6 +681,8 @@
 					this.setupProgressBar();
 				}
 				
+				$(this.getClass('fullscreen')).addClass('fullscreen');
+				
 				this.fullscreen = true;
 			}
 			else {
@@ -690,6 +692,8 @@
 				else if ($.browser.mozilla) {
 					document.mozCancelFullScreen();
 				}
+				
+				$(this.getClass('fullscreen')).removeClass('fullscreen');
 				
 				this.fullscreen = false;
 			}
