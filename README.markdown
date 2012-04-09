@@ -4,7 +4,7 @@
 
 A jQuery plugin to build custom HTML5 video players.
 
-The main features of this plugin include the ability to customize the player controls and the ability to chose different quality versions of the same video.
+The main features of this plugin include the ability to customize the player controls and the ability to choose different quality versions of the same video.
 
 # Advantages
 
