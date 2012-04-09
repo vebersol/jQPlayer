@@ -4,6 +4,7 @@
 		this.selector = selector;
 		this.options = options;
 		this.idCounter = 0;
+		this.playing = false;
 		this.init();
 	}
 	
@@ -101,13 +102,25 @@
 			}
 			
 			$(this.getClass('play')).hover(enter, leave);
-			
 			$(this.getClass('volume')).hover(enter, leave);
-			
 			$(this.getClass('fullscreen')).hover(enter, leave);
-			
 			$(this.getClass('alternative-versions')).hover(enter, leave);
 			
+			this.selector.bind('mouseleave', function(ev) {
+				ev.preventDefault();
+				if (_this.playing) {
+					clearTimeout(_this.inactivateTimer);
+					_this.inactivateTimer = setTimeout(function() {
+						_this.selector.find(_this.getClass('video-controls')).addClass('inactive');
+					}, 2000);
+				}
+			});
+			
+			this.selector.bind('mouseenter', function(ev) {
+				ev.preventDefault();
+				clearTimeout(_this.inactivateTimer);
+				_this.selector.find(_this.getClass('video-controls')).removeClass('inactive');
+			});
 		},
 		
 		blockSelection: function() {
@@ -560,6 +573,8 @@
 					_this.options.onEnd.call();
 				}
 				
+				_this.playing = false;
+				
 			}, true);
 			
 			video.addEventListener('timeupdate', function() {
@@ -581,6 +596,8 @@
 					if (_this.options.onPlay) {
 						_this.options.onPlay.call();
 					}
+					
+					_this.playing = true;
 				},
 				true
 			);
@@ -591,6 +608,8 @@
 				if (_this.options.onPause) {
 					_this.options.onPause.call();
 				}
+				
+				_this.playing = false;
 			 }, true);
 						
 		},
