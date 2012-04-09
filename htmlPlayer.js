@@ -1,7 +1,7 @@
 (function($) {
 	
-	var VideoPlayer = function(elements, options) {
-		this.videos = elements;
+	var VideoPlayer = function(selector, options) {
+		this.selector = selector;
 		this.options = options;
 		this.idCounter = 0;
 		this.init();
@@ -9,19 +9,16 @@
 	
 	VideoPlayer.prototype = {
 		init: function() {
-			var _this = this;
-			
-			this.videos.each(function() {
-				var video = $(this);
-				_this.createControls(video);
-				_this.bindControls(video);
-				_this.bindEvents(video);
-				_this.setupSubtitles(video);
-				
-				if (_this.options.onStart) {
-					_this.options.onStart.call();
-				}
-			});
+			this.getDefaultVideo();
+			this.createVideoElement();
+			this.createControls();
+			this.bindControls();
+			this.bindEvents();
+			this.setupSubtitles();
+			 			
+			if (this.options.onStart) {
+				this.options.onStart.call();
+			}
 		},
 		
 		adjustSubtitle: function(video) {
@@ -48,16 +45,16 @@
 			for (var i = 0; i < this.options.controls.length; i++) {
 				switch (this.options.controls[i]) {
 					case 'play':
-						video.parent().find(_this.getClass('play')).bind('click', function() { _this.playPause(video); });
+						this.selector.find(_this.getClass('play')).bind('click', function() { _this.playPause(); });
 						break;
 					case 'progress':
-						this.setupProgressBar(video);
+						this.setupProgressBar();
 						break;
 					case 'volume':
-						video.parent().find(_this.getClass('volume-button')).bind('click', function() {	_this.muteVideo(video); });
+						this.selector.find(_this.getClass('volume-button')).bind('click', function() {	_this.muteVideo(); });
 						break;
 					case 'fullscreen':
-						video.parent().find(_this.getClass('fullscreen')).bind('click', function() {	_this.toFullscreen(video); });
+						this.selector.find(_this.getClass('fullscreen')).bind('click', function() {	_this.toFullscreen(); });
 						break;
 					default:
 						break;
@@ -65,22 +62,21 @@
 			}
 		},
 		
-		bindEvents: function(video) {
+		bindEvents: function() {
 			var _this = this;
-			var video = video.get(0);
+			var video = this.video.get(0);
 			
-			video.addEventListener('loadeddata', function() {
-			
-				if ($.inArray('progress', _this.options.controls)) {				
+			video.addEventListener('loadedmetadata', function() {
+				if ($.inArray('progress', _this.options.controls)) {		
 						_this.setProgressEvents(this);				
 				}
 			
 				if ($.inArray('time', _this.options.controls)) {		
-					_this.setupTime(video);
+					_this.setupTime();
 				}
 				
 				if ($.inArray('volume', _this.options.controls)) {		
-					_this.volumeSetup(video);
+					_this.volumeSetup();
 				}
 			
 			}, true);
@@ -126,25 +122,26 @@
 			}
 		},
 		
-		createAlternative: function(video) {
-			var defaultVersion = this.extendAlternativeVersions(video);
-			
+		createAlternative: function() {
 			var element = $('<div class="'+ this.setClass('alternative-versions') +' standard"></div>');
-			element.append('<span class="'+this.setClass('current-version')+'">'+defaultVersion.standard.label+'</span>')
+			element.append('<span class="'+this.setClass('current-version')+'">'+this.defaultVideo.label+'</span>')
 			element.append('<ul></ul>');
 			
-			for (alternative in this.options.alternativeVersions) {
-				var alternativeObj = this.options.alternativeVersions[alternative];
-				if (alternativeObj.source) {
-					var li = $('<li class="'+this.getClass('alternative-' + alternative)+'"><a href="javascript:;"><span></span></a></li>');
-					if (alternativeObj.label) {
-						li.find('span').html(alternativeObj.label);
-					}
+			for (alternative in this.options.videos) {
+				var alternativeObj = this.options.videos[alternative];
+				
+				if (alternativeObj != this.defaultVideo) {
+					if (alternativeObj.source) {
+						var li = $('<li class="'+this.getClass('alternative-' + alternative)+'"><a href="javascript:;"><span></span></a></li>');
+						if (alternativeObj.label) {
+							li.find('span').html(alternativeObj.label);
+						}
 
-					var _this = this;
-					li.find('a').bind('click', function() { _this.changeVideoSource(this, video); });
+						var _this = this;
+						li.find('a').bind('click', function() { _this.changeVideoSource(this, video); });
 					
-					element.find('ul').append(li);
+						element.find('ul').append(li);
+					}
 				}
 			}
 			
@@ -163,53 +160,45 @@
 			return '<div style="clear:both;width:0;height:0;margin:0;padding:0;"><!-- --></div>'
 		},
 		
-		createControls: function(video) {
-			var wrapper = video.parent();
-			var controls = $('<div>').addClass(this.setClass(this.options.controlsClass));
+		createControls: function() {
+			this.controls = $('<div>').addClass(this.setClass(this.options.controlsClass));
 			
 			for (var i = 0; i < this.options.controls.length; i++) {
 				switch (this.options.controls[i]) {
 					case 'play':
 						var playBtn = this.createButton('Play/Pause', 'play');
-						controls.append(playBtn);
+						this.controls.append(playBtn);
 						break;
 					case 'progress':
 						var progressBar = this.createProgressBar();
-						controls.append(progressBar);
+						this.controls.append(progressBar);
 						break;
 					case 'time':
 						var timeDisplay = this.createTimeDisplay();
-						controls.append(timeDisplay);
+						this.controls.append(timeDisplay);
 						break;
 					case 'volume':
 						var volumeBar = this.createVolumeBar();
-						controls.append(volumeBar);
+						this.controls.append(volumeBar);
 						break;
 					case 'fullscreen':
 						var fullScreenBtn = this.createButton('Fullscreen', 'fullscreen');
-						controls.append(fullScreenBtn);
+						this.controls.append(fullScreenBtn);
 						break;
 					case 'alternative':
-						var alternative = this.createAlternative(video);
-						controls.append(alternative);
+						var alternative = this.createAlternative();
+						this.controls.append(alternative);
 						break;
 					default:
 						var customButton = this.createCustomButton(this.options.controls[i]);
-						controls.append(customButton);
+						this.controls.append(customButton);
 						break;
 				}
 			}
 			
 			// clear floats
-			controls.append(this.createClearFloats());
-			
-			wrapper.append(controls);
-			
-			// if (!this.options.floatControls) {
-				var height = video.height() + controls.height();
-				wrapper.css('height', height);
-			// } else {
-			// }
+			this.controls.append(this.createClearFloats());
+			this.selector.append(this.controls);
 		},
 		
 		createCustomButton: function(button) {
@@ -238,6 +227,8 @@
 					if (buttonObj.label)
 						buttonElement.find('a').html(buttonObj.label);
 				}
+				
+				buttonElement.addClass(this.setClass('custom-button'));
 				return buttonElement;
 			}
 			
@@ -273,6 +264,19 @@
 			return time;
 		},
 		
+		createVideoElement: function() {
+			this.video = $('<video>Your browser doesn\'t support video tag.</video>');
+			this.video.attr('src', this.getVideoSource());
+			this.video.width(this.selector.width());
+			this.video.height(this.selector.height());
+			
+			if (this.defaultVideo.subtitle) {
+				this.video.append('<track src="'+this.defaultVideo.subtitle+'"></track>');
+			}
+			
+			$(this.selector).append(this.video);			
+		},
+		
 		createVolumeBar: function() {
 			var volume = $('<div>').addClass(this.setClass('volume'));
 			var volumeBtn = $('<div>').addClass(this.setClass('volume-button')).html('Volume');
@@ -294,7 +298,7 @@
 			return volume;
 		},
 		
-		extendAlternativeVersions: function(video) {
+		/*extendAlternativeVersions: function(video) {
 			var _this = this;
 			var mp4, ogg;
 			video.children('source').each(function() {
@@ -319,7 +323,7 @@
 			this.options.alternativeVersions = $.extend(defaultVersion, this.options.alternativeVersions);
 
 			return defaultVersion;
-		},
+		},*/
 		
 		findPosX: function(obj) {
 			obj = obj.get(0);
@@ -361,11 +365,11 @@
 			return '.' + this.options.prefix + name;
 		},
 		
-		getControlsSize: function(video) {
+		getControlsSize: function() {
 			var size = 0;
 			var _this = this;
 			
-			video.parent().find(this.getClass('video-controls')).children().each(function() {
+			this.selector.find(this.getClass('video-controls')).children().each(function() {
 				var element = $(this);
 				if (!element.hasClass(_this.setClass('progress-bar'))) {
 					size += element.outerWidth();
@@ -373,6 +377,18 @@
 			});
 			
 			return size;
+		},
+		
+		getDefaultVideo: function() {
+			if (this.options.videos[this.options.defaultVideo]) {
+				this.defaultVideo = this.options.videos[this.options.defaultVideo];
+				return this.defaultVideo;
+			}
+			
+			for (var video in this.options.videos) {
+				this.defaultVideo = this.options.videos[video];
+				return this.defaultVideo;
+			}
 		},
 		
 		getMaxTime: function() {
@@ -389,6 +405,18 @@
 			}
 		},
 		
+		getVideoSource: function() {
+			if ($.browser.safari) {
+				return this.defaultVideo.source.mp4;
+			}
+			
+			if (this.defaultVideo.source.ogg) {
+				return this.defaultVideo.source.ogg;
+			}
+			
+			return this.defaultVideo.source.webm;
+		},
+		
 		hideControls: function(controls) {
 			controls.animate({bottom: '-' + controls.height() + 'px'});
 		},
@@ -400,15 +428,16 @@
 			return id;
 		},
 		
-		muteVideo: function(video) {
-			var volumeButton = video.parent().find(this.getClass('volume-button'));	
-			var volumePosition = video.parent().find(this.getClass('volume-position'));
-			var video = video.get(0);
+		muteVideo: function() {
+			var volumeButton = this.selector.find(this.getClass('volume-button'));	
+			var volumePosition = this.selector.find(this.getClass('volume-position'));
+			var video = this.video.get(0);
 			
 			if (video.muted) {
 				video.muted = false;
 				volumeButton.removeClass('muted');
-				volumePosition.height(video.volume * 100 + '%');
+				volumePosition
+				.height(video.volume * 100 + '%');
 			}
 			else {
 				video.muted = true;
@@ -417,8 +446,8 @@
 			}
 		},
 		
-		playPause: function(video) {
-			var videoObj = video.get(0);
+		playPause: function() {
+			var videoObj = this.video.get(0);
 			
 			if (videoObj.paused) {
 				videoObj.play();
@@ -542,18 +571,18 @@
 						
 		},
 		
-		setupProgressBar: function(video) {
-			var progressBar = video.parent().find(this.getClass('progress-bar'));
-			var controlsSize = progressBar.parent().width() - this.getControlsSize(video);
+		setupProgressBar: function() {
+			var progressBar = this.selector.find(this.getClass('progress-bar'));
+			var controlsSize = progressBar.parent().width() - this.getControlsSize();
 			
 			progressBar.width(controlsSize);
 		},
 		
-		setupSubtitles: function(video) {
+		setupSubtitles: function() {
 			var _this = this;
 			this.subtitleObj = {}
 			
-			var src = video.find('track').attr('src');			
+			var src = this.video.find('track').attr('src');
 			
 			if (src) {
 				$.ajax({
@@ -566,23 +595,23 @@
 					}
 				});
 				
-				var subtitleEl = $('<div id="subtitle-'+video.parent().attr('id')+'" class="'+this.setClass('subtitle')+'"></div>');
+				var subtitleEl = $('<div id="subtitle-'+this.selector.attr('id')+'" class="'+this.setClass('subtitle')+'"></div>');
 				var subtitleContent = $('<div class="'+this.setClass('subtitle-content')+'"></div>');
 				
 				subtitleEl.append(subtitleContent);
 				
 				this.subtitleObj.element = subtitleEl;
 				
-				video.parent().append(this.subtitleObj.element);
+				this.selector.append(this.subtitleObj.element);
 			}
 		},
 		
-		setupTime: function(video) {
-			var time = $(video).parent().find(this.getClass('time-display'));
+		setupTime: function() {
+			var time = this.selector.find(this.getClass('time-display'));
 			
 			var currentTime = time.find(this.getClass('time-current')).html(this.formatTime(0));
 			var totalTime = time.find(this.getClass('time-separator')).html(this.options.timeSeparator);
-			var timeSeparator = time.find(this.getClass('time-total')).html(this.formatTime(video.duration));
+			var timeSeparator = time.find(this.getClass('time-total')).html(this.formatTime(this.video.get(0).duration));
 		},
 		
 		subtitlesToArray: function(data) {
@@ -607,7 +636,7 @@
 			}
 		},
 		
-		toFullscreen: function(video) {
+		toFullscreen: function() {
 			//TODO
 			alert('TODO');
 		},
@@ -659,8 +688,9 @@
 			pointer.css('left', scrubbingWidth + '%');
 		},
 		
-		volumeSetup: function(video) {
-			var volWrapper = $(video).parent().find(this.getClass('volume-wrapper'));
+		volumeSetup: function() {
+			var video = this.video.get(0);
+			var volWrapper = this.selector.find(this.getClass('volume-wrapper'));
 			var _this = this;
 			
 			volWrapper.bind('mousedown', function(event) {
@@ -714,6 +744,7 @@
 			controls: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative'],
 			controlsClass: 'video-controls',
 			customButtons: {},
+			defaultVideo: 'default',
 			floatControls: false,
 			onEnd: false,
 			onPause: false,

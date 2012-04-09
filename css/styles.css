@@ -95,7 +95,7 @@ body {
 .html-player-progress-wrapper {
 	position:relative;
 	height:33px;
-	width:96%;
+	width:90%;
 	margin:0 auto;
 }
 
@@ -247,3 +247,10 @@ body {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 }
+
+.html-player-custom-button {
+	float:left;
+	width:30px;
+}
+
+#video-element {position:relative; width:640px; height:266px;}

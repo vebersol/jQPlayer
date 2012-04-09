@@ -30,36 +30,41 @@
 							}
 						}
 					},*/
-					alternativeVersions: {
+					videos: {
 						hd: {
 							source: {
 								mp4: 'http://www.mindwork3d.com/video/640x316.mp4',
-								ogg: 'http://www.mindwork3d.com/video/640x316.ogv'
+								webm: 'http://video-js.zencoder.com/oceans-clip.webm'
 							},
-							label: 'HD'
+							label: 'HD',
+							subtitle: 'media/subtitles.srt'
 						},
-						standard: {
+						sd: {
 							source: {
 								mp4: 'media/big_buck_bunny_480p_h264.mov',
-								ogg: 'media/big_buck_bunny_480p_stereo.ogg'
+								webm: 'media/big_buck_bunny_480p_stereo.ogg'
 							},
 							label: 'SD'
 						}
-					}
+					},
+						defaultVideo: 'hd'
 				};
 				
-				playerTest = $('video').jQPlayer(options);
+				playerTest = $('#video-element').jQPlayer(options);
 			});
 		</script>
 	</head>
 	<body>
-		<div class="html-player-wrapper">
+		<!--<div class="html-player-wrapper">
 			<video width="854" height="480">
 				<source src="media/big_buck_bunny_480p_h264.mov"></source>
 				<source src="media/big_buck_bunny_480p_stereo.ogg"></source>
 				<track kind="subtitle" src="media/subtitles.srt">
 				Your browser doesn't support this video.
 			</video>
+		</div>-->
+		<div id="video-element">
+			<!-- -->
 		</div>
 	</body>
 </html>
