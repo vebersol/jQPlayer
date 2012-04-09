@@ -117,7 +117,7 @@ This plugin has been developed by [Vinícius Ebersol][ve].
 
 # Contributing
 
-If you want to contribute, please feel free to contribute to the project.
+If you want to contribute, please feel free, we encourage you to do this.
 
 # Reporting bugs
 
