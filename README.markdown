@@ -15,6 +15,96 @@ The main feature of this plugin is the property of custom setup for buttons in p
 # Usage
 
 ```html
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="htmlPlayer.js" type="text/javascript" charset="utf-8"></script>
+<!-- Add jQuery and the plugin file in your HTML page -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+<script src="jquery-jqplayer-0.5.0.js" type="text/javascript"></script>
+
+<!-- Create an HTML element -->
+<div id="video-element"><!-- --></div>
+
+<!-- Setup the plugin and enjoy yourself! -->
+<script type="text/javascript">
+  $(function() {
+  	
+		var options = {
+			videos: {
+				standard: {
+					source: {
+						mp4: 'movie.mp4',
+						webm: 'movie.webm'
+					},
+					label: 'SD'
+				}
+			}
+		};
+		
+		$('#video-element').jQPlayer(options);
+	});
+</script>
 ```
+
+# API
+
+#### $.jQPlayer(options)
+
+This method is used to build the player.
+
+##### Options
+
+* **controls:** (Array)
+Set and order all available and custom controls.
+By removing one of them, you will hide it from player.
+*Default value: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative']*
+
+* **controlsClass:** (String)
+Add a custom class to video player controls.
+*Default value: 'video-controls'*
+
+* **customButtons:** (Object)
+An object that receives all custom buttons.
+*Default value: {}*
+
+* **defaultVideo:** (String)
+Set the default video to be loaded on initialization.
+*Default value: 'standard'*
+
+* **floatControls:** (Boolean)
+To be defined.
+*Default value: false*
+
+* **onEnd:** (Function)
+A function that will be executed on video end.
+*Default value: false*
+
+* **onPause:** (Function)
+A function that will be executed on video pause.
+*Default value: false*
+
+* **onPlay:** (Function)
+A function that will be executed on video play.
+*Default value: false*
+
+* **onSeek:** (Function)
+A function that will be executed on video seek.
+*Default value: false*
+
+* **onStart:** (Function)
+A function that will be executed on video start.
+*Default value: false*
+
+* **onVideoChange:** (Function)
+A function that will be executed on video change.
+*Default value: false*
+
+* **prefix:** (String)
+A prefix to add for all used classes on the used HTML.
+*Default value: 'html-player-'*
+
+* **timeSeparator:** (String)
+A saparator to be used between current time and duration time.
+*Default value: '/'*
+
+* **videoId:** (String)
+Video element will assume an id like 'videoId' + incremental integer.
+*Default value: 'video-'*
+*Default value: 'html-player-'*
