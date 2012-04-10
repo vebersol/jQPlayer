@@ -4,14 +4,14 @@
 
 A jQuery plugin to build custom HTML5 video players.
 
-The main feature of this plugin is the property of custom setup for buttons in player bar and the possibility to use many videos qualities for the same video.
+The main features of this plugin include the ability to customize the player controls and the ability to choose different quality versions of the same video.
 
 Demo: http://jqplayer.vebersol.net/
 
 # Advantages
 
 * More customizable options;
-* Callback events for common actios like play, pause, end, etc;
+* Callback events for common actions like play, pause, end, etc;
 * Custom buttons to add to your player bar;
 * Possibility to add different versions (sd, hd) for the same video;
 * Easy setup.
