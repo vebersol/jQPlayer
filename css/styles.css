@@ -292,7 +292,9 @@
 	font-size:28px;
 }
 
-:-moz-full-screen .html-player-subtitle {
+:-moz-full-screen .html-player-subtitle,
+:-webkit-full-screen .html-player-subtitle,
+:fullscreen .html-player-subtitle {
 	font-size:28px;
 }
 

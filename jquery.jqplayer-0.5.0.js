@@ -29,8 +29,6 @@
 			var currentTime = parseFloat(video.currentTime);
 			
 			while (this.getMaxTime() < currentTime) {
-				// this.subtitleObj.current = this.subtitleObj.content[this.subtitleObj.current];
-				// this.subtitleObj.count++;
 				this.updateSubtitle(video);
 				
 				if (this.subtitleObj.count > this.subtitleObj.content.length-1) {
@@ -84,12 +82,12 @@
 			
 			if ($.browser.webkit) {
 				$(document).bind('webkitfullscreenchange', function() {
-					_this.setupProgressBar();
+					_this.fullscreenEvent();
 				});
 			}
 			else if ($.browser.mozilla) {
 				$(document).bind('mozfullscreenchange', function() {
-					_this.setupProgressBar();
+					_this.fullscreenEvent();
 				});
 			}
 			
@@ -395,6 +393,14 @@
 			return minutes + ':' + seconds;
 		},
 		
+		fullscreenEvent: function() {
+			this.setupProgressBar();
+			
+			var fullScreenBtn = $(this.getClass('fullscreen'))
+			
+			fullScreenBtn.toggleClass('fullscreen');
+		},
+		
 		getClass: function(name) {
 			return '.' + this.options.prefix + name;
 		},
@@ -689,7 +695,7 @@
 					this.setupProgressBar();
 				}
 				
-				$(this.getClass('fullscreen')).addClass('fullscreen').removeClass('hover');
+				$(this.getClass('fullscreen')).removeClass('hover');
 				
 				this.fullscreen = true;
 			}
@@ -701,7 +707,7 @@
 					document.mozCancelFullScreen();
 				}
 				
-				$(this.getClass('fullscreen')).removeClass('fullscreen').removeClass('hover');
+				$(this.getClass('fullscreen')).removeClass('hover');
 				
 				this.fullscreen = false;
 			}
