@@ -112,6 +112,55 @@ A saparator to be used between current time and duration time.
 Video element will assume an id like 'videoId' + incremental integer.  
 *Default value: 'video-'*
 
+# How to setup a custom button
+
+You can setup custom buttons by adding the following property to your options object:
+
+```javascript
+customButtons: {
+  'custom_button_1': {
+    url: 'http://jqplayer.vebersol.net',
+    label: 'TEST',
+    className: 'custom-button-1',
+    target: '_blank'
+  },
+  
+  'custom_button_2': {
+    label: 'TEST',
+    className: 'custom-button-1',
+    onclick: function() {
+      alert('test');
+    }
+  }
+}
+```
+
+# How to setup a video and subtitles
+
+You can add multiple qualities of videos that contain the source (mp4, webm or ogg). The property label will be used as option on quality menu.
+And finally, subtitle will be the path to srt file.
+
+```javascript
+videos: {
+  p720: {
+    source: {
+      mp4: 'media/sample720p.mp4',
+      webm: 'media/sample720p.webm'
+    },
+    label: '720p',
+    subtitle: 'media/subtitles.srt'
+  },
+  p360: {
+    source: {
+      mp4: 'media/sample360p.mp4',
+      webm: 'media/sample360p.webm'
+    },
+    label: '360p',
+    subtitle: 'media/subtitles.srt'
+  }
+}
+```
+
 # Developers
 
 This plugin has been developed by [Vinícius Ebersol][ve].
