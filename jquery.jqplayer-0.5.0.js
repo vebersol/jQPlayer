@@ -1,3 +1,16 @@
+/*
+
+	jQPlayer - HTML 5 Video Player Plugin for jQuery
+	Version: 0.5
+	Site: http://jqplayer.vebersol.net/
+	
+	Author: Vinícius Ebersol
+	Designer: Thiago Reis
+	
+	License: MIT License/GPL License
+	
+*/
+
 (function($) {
 	
 	var VideoPlayer = function(selector, options) {
