@@ -311,3 +311,4 @@
 }
 
 #video-element {position:relative; width:640px; height:360px; padding-bottom:12px;}
+#video-element.fullscreen {padding:0;}

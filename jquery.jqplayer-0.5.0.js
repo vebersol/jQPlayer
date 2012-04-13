@@ -409,9 +409,10 @@
 		fullscreenEvent: function() {
 			this.setupProgressBar();
 			
-			var fullScreenBtn = $(this.getClass('fullscreen'))
-			
+			var fullScreenBtn = $(this.getClass('fullscreen'));			
 			fullScreenBtn.toggleClass('fullscreen');
+			
+			this.selector.toggleClass('fullscreen');
 		},
 		
 		getClass: function(name) {
@@ -700,12 +701,12 @@
 		
 		toFullscreen: function() {
 			if (!this.fullscreen) {
-				if ($.browser.webkit) {
+				if (this.selector.get(0).webkitRequestFullScreen) {
 					this.selector.get(0).webkitRequestFullScreen();
 				}
-				else if ($.browser.mozilla) {
+				else if (this.selector.get(0).mozRequestFullScreen) {
 					this.selector.get(0).mozRequestFullScreen();
-					this.setupProgressBar();
+					//this.setupProgressBar();
 				}
 				
 				$(this.getClass('fullscreen')).removeClass('hover');
@@ -713,10 +714,10 @@
 				this.fullscreen = true;
 			}
 			else {
-				if ($.browser.webkit) {
+				if (document.webkitCancelFullScreen) {
 					document.webkitCancelFullScreen();
 				}
-				else if ($.browser.mozilla) {
+				else if (document.mozCancelFullScreen) {
 					document.mozCancelFullScreen();
 				}
 				
