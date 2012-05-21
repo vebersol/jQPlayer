@@ -254,8 +254,10 @@
 						this.controls.append(volumeBar);
 						break;
 					case 'fullscreen':
-						var fullScreenBtn = this.createButton('Fullscreen', 'fullscreen');
-						this.controls.append(fullScreenBtn);
+						if ($.browser.webkit || $.browser.mozilla) {
+							var fullScreenBtn = this.createButton('Fullscreen', 'fullscreen');
+							this.controls.append(fullScreenBtn);
+						}
 						break;
 					case 'alternative':
 						var alternative = this.createAlternative();
@@ -464,7 +466,7 @@
 				videoObj = this.defaultVideo;
 			}
 			
-			if ($.browser.safari) {
+			if (($.browser.safari && !/Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)) || $.browser.msie) {
 				return videoObj.source.mp4;
 			}
 			
