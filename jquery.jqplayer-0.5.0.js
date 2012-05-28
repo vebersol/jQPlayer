@@ -10,75 +10,75 @@
 	License: MIT License/GPL License
 	
 */
+var options;
+(function ($) {
 
-(function($) {
-	
-	var VideoPlayer = function(selector, options) {
+	var VideoPlayer = function (selector, options) {
 		this.selector = selector;
 		this.options = options;
 		this.idCounter = 0;
 		this.playing = false;
 		this.init();
-	}
-	
+	};
+
 	VideoPlayer.prototype = {
-		init: function() {
+		init: function () {
 			this.getDefaultVideo();
 			this.createVideoElement();
 			this.createControls();
 			this.bindControls();
 			this.bindEvents();
 			this.setupSubtitles();
-			 			
+
 			if (this.options.onStart) {
 				this.options.onStart.call();
 			}
 		},
-		
-		adjustSubtitle: function(video) {
+
+		adjustSubtitle: function (video) {
 			this.subtitleObj.count = 0;
 			this.subtitleObj.current = this.subtitleObj.content[this.subtitleObj.count];
-			
+
 			var currentTime = parseFloat(video.currentTime);
-			
+
 			while (this.getMaxTime() < currentTime) {
 				this.updateSubtitle(video);
-				
-				if (this.subtitleObj.count > this.subtitleObj.content.length-1) {
-					this.subtitleObj.count = this.subtitleObj.content.length-1;
+
+				if (this.subtitleObj.count > this.subtitleObj.content.length - 1) {
+					this.subtitleObj.count = this.subtitleObj.content.length - 1;
 					break;
 				}
 			}
 		},
-		
-		bindControls: function(video) {
+
+		bindControls: function (video) {
 			var _this = this;
 			
 			for (var i = 0; i < this.options.controls.length; i++) {
 				switch (this.options.controls[i]) {
 					case 'play':
-						this.selector.find(_this.getClass('play')).bind('click', function() { _this.playPause(); });
+						this.selector.find(_this.getClass('play')).bind('click', function () { _this.playPause(); });
 						break;
 					case 'progress':
 						this.setupProgressBar();
 						break;
 					case 'volume':
-						this.selector.find(_this.getClass('volume-button')).bind('click', function() {	_this.muteVideo(); });
+						this.selector.find(_this.getClass('volume-button')).bind('click', function () {	_this.muteVideo(); });
 						break;
 					case 'fullscreen':
-						this.selector.find(_this.getClass('fullscreen')).bind('click', function() {	_this.toFullscreen(); });
+						this.selector.find(_this.getClass('fullscreen')).bind('click', function () {	_this.toFullscreen(); });
 						break;
 					default:
 						break;
 				}
 			}
 		},
-		
-		bindEvents: function() {
+
+		bindEvents: function () {
 			var _this = this;
 			var video = this.video.get(0);
-			
-			video.addEventListener('loadedmetadata', function() {
+
+			video.addEventListener('loadedmetadata', function () {
 				if ($.inArray('progress', _this.options.controls)) {		
 						_this.setProgressEvents(this);				
 				}
@@ -94,53 +94,53 @@
 			}, true);
 			
 			if ($.browser.webkit) {
-				$(document).bind('webkitfullscreenchange', function() {
+				$(document).bind('webkitfullscreenchange', function () {
 					_this.fullscreenEvent();
 				});
 			}
 			else if ($.browser.mozilla) {
-				$(document).bind('mozfullscreenchange', function() {
+				$(document).bind('mozfullscreenchange', function () {
 					_this.fullscreenEvent();
 				});
 			}
 			
-			var enter = function() {
+			var enter = function () {
 				$(this).addClass('hover');
-			}
+			};
 			
-			var leave = function() {
+			var leave = function () {
 				$(this).removeClass('hover');
-			}
+			};
 			
 			$(this.getClass('play')).hover(enter, leave);
 			$(this.getClass('volume')).hover(enter, leave);
 			$(this.getClass('fullscreen')).hover(enter, leave);
 			$(this.getClass('alternative-versions')).hover(enter, leave);
 			
-			this.selector.bind('mouseleave', function(ev) {
+			this.selector.bind('mouseleave', function (ev) {
 				ev.preventDefault();
 				if (_this.playing) {
 					clearTimeout(_this.inactivateTimer);
-					_this.inactivateTimer = setTimeout(function() {
+					_this.inactivateTimer = setTimeout(function () {
 						_this.selector.find(_this.getClass('video-controls')).addClass('inactive');
 					}, 2000);
 				}
 			});
 			
-			this.selector.bind('mouseenter', function(ev) {
+			this.selector.bind('mouseenter', function (ev) {
 				ev.preventDefault();
 				clearTimeout(_this.inactivateTimer);
 				_this.selector.find(_this.getClass('video-controls')).removeClass('inactive');
 			});
 		},
 		
-		blockSelection: function() {
-			document.onselectstart = function() {
+		blockSelection: function () {
+			document.onselectstart = function () {
 				return false;
-			}
+			};
 		},
 		
-		changeVideoSource: function(element) {
+		changeVideoSource: function (element) {
 			var currentVersionEl = $(element).parent().parent().parent();
 			currentVersion = currentVersionEl.attr('class').replace(this.setClass('alternative-versions') + ' ', '');
 			var labelEl = currentVersionEl.find(this.getClass('current-version'));
@@ -171,7 +171,7 @@
 							}
 
 							var _this = this;
-							li.find('a').bind('click', function() { _this.changeVideoSource(this); });
+							li.find('a').bind('click', function () { _this.changeVideoSource(this); });
 							
 							ul.append(li);
 						}
@@ -180,7 +180,7 @@
 			
 				var _this = this;
 			
-				video.addEventListener('loadedmetadata', function() {
+				video.addEventListener('loadedmetadata', function () {
 					this.play();
 				
 					if (_this.options.onVideoChange) {
@@ -191,9 +191,9 @@
 			}
 		},
 		
-		createAlternative: function() {
+		createAlternative: function () {
 			var element = $('<div class="'+ this.setClass('alternative-versions') +'"></div>');
-			element.append('<span class="'+this.setClass('current-version')+'">'+this.defaultVideo.label+'</span>')
+			element.append('<span class="'+this.setClass('current-version')+'">'+this.defaultVideo.label+'</span>');
 			element.append('<ul></ul>');
 			
 			for (alternative in this.options.videos) {
@@ -207,7 +207,7 @@
 						}
 
 						var _this = this;
-						li.find('a').bind('click', function() { _this.changeVideoSource(this); });
+						li.find('a').bind('click', function () { _this.changeVideoSource(this); });
 					
 						element.find('ul').append(li);
 					}
@@ -220,19 +220,19 @@
 			return element;
 		},
 		
-		createButton: function(label, className) {
+		createButton: function (labelName, className) {
 			var btn = $('<div>').addClass(this.setClass(className));
-			var label = $('<span>').html(label);
+			var label = $('<span>').html(labelName);
 			btn.append(label);
 			
 			return btn;
 		},
 		
-		createClearFloats: function() {
-			return '<div style="clear:both;width:0;height:0;margin:0;padding:0;"><!-- --></div>'
+		createClearFloats: function () {
+			return '<div style="clear:both;width:0;height:0;margin:0;padding:0;"><!-- --></div>';
 		},
 		
-		createControls: function() {
+		createControls: function () {
 			this.controls = $('<div>').addClass(this.setClass(this.options.controlsClass));
 			
 			for (var i = 0; i < this.options.controls.length; i++) {
@@ -275,8 +275,8 @@
 			this.selector.append(this.controls);
 		},
 		
-		createCustomButton: function(button) {
-			var buttonElement;
+		createCustomButton: function (button) {
+			var buttonElement = null;
 			var buttonObj = this.options.customButtons[button];
 			if (buttonObj) {
 				if (buttonObj.url) {
@@ -285,14 +285,16 @@
 					if (buttonObj.label)
 						buttonElement.find('a').html(buttonObj.label);
 						
-					if (buttonObj.className)
-						buttonElement.addClass(buttonObj.className)
+					if (buttonObj.className) {
+						buttonElement.addClass(buttonObj.className);
+					}
 						
-					if (buttonObj.target)
+					if (buttonObj.target) {
 						buttonElement.find('a').attr('target', buttonObj.target);
+					}
 				}
 				else if (buttonObj.onclick) {
-					buttonElement = $('<div><a href="javascript:;"></a></div>')
+					buttonElement = $('<div><a href="javascript:;"></a></div>');
 					buttonElement.find('a').bind('click', buttonObj.onclick);
 					
 					if (buttonObj.className)
@@ -309,7 +311,7 @@
 			return false;
 		},
 		
-		createProgressBar: function() {
+		createProgressBar: function () {
 			var progressBar = $('<div>').addClass(this.setClass('progress-bar'));
 			var progressWrapper = $('<div>').addClass(this.setClass('progress-wrapper'));
 			var progressPlay = $('<div>').addClass(this.setClass('progress-play'));
@@ -325,7 +327,7 @@
 			return progressBar;
 		},
 		
-		createTimeDisplay: function() {
+		createTimeDisplay: function () {
 			var time = $('<div>').addClass(this.setClass('time-display'));
 			var current = $('<div>').addClass(this.setClass('time-current'));
 			var separator = $('<div>').addClass(this.setClass('time-separator'));
@@ -338,7 +340,7 @@
 			return time;
 		},
 		
-		createVideoElement: function() {
+		createVideoElement: function () {
 			this.video = $('<video>Your browser doesn\'t support video tag.</video>');
 			this.video.attr('src', this.getVideoSource());
 			this.video.width('100%');
@@ -351,7 +353,7 @@
 			$(this.selector).append(this.video);			
 		},
 		
-		createVolumeBar: function() {
+		createVolumeBar: function () {
 			var volume = $('<div>').addClass(this.setClass('volume'));
 			var volumeBtn = $('<div>').addClass(this.setClass('volume-button')).html('Volume');
 			var volumeBar = $('<div>').addClass(this.setClass('volume-bar'));
@@ -372,7 +374,7 @@
 			return volume;
 		},
 		
-		findPosX: function(obj) {
+		findPosX: function (obj) {
 			obj = obj.get(0);
 			var curleft = obj.offsetLeft;
 			while(obj = obj.offsetParent) {
@@ -382,7 +384,7 @@
 			return curleft;
 		},
 		
-		findPosY: function(obj) {
+		findPosY: function (obj) {
 			obj = obj.get(0);
 			var curtop = obj.offsetTop;
 			while(obj = obj.offsetParent) {
@@ -392,9 +394,9 @@
 			return curtop;
 		},
 		
-		formatTime: function(seconds) {
-			var minutes = Math.floor(seconds / 60);
-			var seconds = Math.round(seconds - (minutes * 60));
+		formatTime: function (secs) {
+			var minutes = Math.floor(secs / 60);
+			var seconds = Math.round(secs - (minutes * 60));
 			
 			if (seconds == 60) {
 				seconds = 0;
@@ -408,7 +410,7 @@
 			return minutes + ':' + seconds;
 		},
 		
-		fullscreenEvent: function() {
+		fullscreenEvent: function () {
 			this.setupProgressBar();
 			
 			var fullScreenBtn = $(this.getClass('fullscreen'));			
@@ -417,15 +419,15 @@
 			this.selector.toggleClass('fullscreen');
 		},
 		
-		getClass: function(name) {
+		getClass: function (name) {
 			return '.' + this.options.prefix + name;
 		},
 		
-		getControlsSize: function() {
+		getControlsSize: function () {
 			var size = 0;
 			var _this = this;
 			
-			this.selector.find(this.getClass('video-controls')).children().each(function() {
+			this.selector.find(this.getClass('video-controls')).children().each(function () {
 				var element = $(this);
 				if (!element.hasClass(_this.setClass('progress-bar'))) {
 					size += element.outerWidth();
@@ -435,7 +437,7 @@
 			return size;
 		},
 		
-		getDefaultVideo: function() {
+		getDefaultVideo: function () {
 			if (this.options.videos[this.options.defaultVideo]) {
 				this.defaultVideo = this.options.videos[this.options.defaultVideo];
 				return this.defaultVideo;
@@ -447,21 +449,21 @@
 			}
 		},
 		
-		getMaxTime: function() {
+		getMaxTime: function () {
 			if (typeof(this.subtitleObj.current) != 'undefined') {
 				var timeArr = this.subtitleObj.current[1].split(' --> ');
 				return this.timecodeToSec(timeArr[1]);
 			}
 		},
 		
-		getMinTime: function() {
+		getMinTime: function () {
 			if (typeof(this.subtitleObj.current) != 'undefined') {
 				var timeArr = this.subtitleObj.current[1].split(' --> ');
 				return this.timecodeToSec(timeArr[0]);
 			}
 		},
 		
-		getVideoSource: function(videoObj) {
+		getVideoSource: function (videoObj) {
 			if (!videoObj) {
 				videoObj = this.defaultVideo;
 			}
@@ -477,18 +479,18 @@
 			return videoObj.source.webm;
 		},
 		
-		hideControls: function(controls) {
+		hideControls: function (controls) {
 			controls.animate({bottom: '-' + controls.height() + 'px'});
 		},
 		
-		incrementId: function() {
+		incrementId: function () {
 			var id = this.options.videoId + this.idCounter;
 			this.idCounter++;
 			
 			return id;
 		},
 		
-		muteVideo: function() {
+		muteVideo: function () {
 			var volumeButton = this.selector.find(this.getClass('volume-button'));	
 			var volumePosition = this.selector.find(this.getClass('volume-position'));
 			var video = this.video.get(0);
@@ -506,7 +508,7 @@
 			}
 		},
 		
-		playPause: function() {
+		playPause: function () {
 			var videoObj = this.video.get(0);
 			
 			if (videoObj.paused) {
@@ -516,12 +518,12 @@
 			}			
 		},
 		
-		resetVideo: function() {
+		resetVideo: function () {
 			this.controls.find(this.getClass('video-controls') + ', ' + this.getClass('progress-buffer')).css('width', 0);
 			clearInterval(this.bufferInterval);
 		},
 		
-		seekTo: function(xPos, progWrapper, video) {
+		seekTo: function (xPos, progWrapper, video) {
 			var progressBar = $(this.getClass('progress-play'));
 			var progWidth = Math.max(0, Math.min(1, ( xPos - this.findPosX(progWrapper) ) / progWrapper.width() ));
 			
@@ -532,23 +534,23 @@
 			progressBar.width(width);
 		},
 		
-		seekVideoSetup: function(video) {
+		seekVideoSetup: function (video) {
 			var progWrapper = $(video).parent().find(this.getClass('progress-wrapper'));
 			if (progWrapper.length > 0) {
 				this.selectable = true;
 				
 				var _this = this;
 				
-				progWrapper.get(0).addEventListener('mousedown', function(event) {
+				progWrapper.get(0).addEventListener('mousedown', function (event) {
 					event.preventDefault();
 					_this.blockSelection();
 					
-					$(document).bind('mousemove', function(e) {
+					$(document).bind('mousemove', function (e) {
 						e.preventDefault();
 						_this.seekTo(e.pageX, progWrapper, video);
 					});
 					
-					$(document).bind('mouseup', function(e) {
+					$(document).bind('mouseup', function (e) {
 						e.preventDefault();
 						_this.unblockSelection();
 						$(document).unbind('mousemove');
@@ -556,22 +558,22 @@
 					});
 				}, true);
 				
-				progWrapper.get(0).addEventListener('mouseup', function(e) {
+				progWrapper.get(0).addEventListener('mouseup', function (e) {
 					_this.seekTo(e.pageX, progWrapper, video);
 				}, true);
 			}
 		},
 		
-		setClass: function(name) {
+		setClass: function (name) {
 			return this.options.prefix + name;
 		},
 		
-		setProgressEvents: function(video) {
+		setProgressEvents: function (video) {
 			var _this = this;
 			var scrubbing = $(this.getClass('progress-play'));
 			var buffer = $(this.getClass('progress-buffer'));
 			
-			video.addEventListener('seeked', function() {
+			video.addEventListener('seeked', function () {
 				if (!video.paused)
 					video.play();
 					
@@ -584,7 +586,7 @@
 				}
 			}, true);
 			
-			video.addEventListener('ended', function() {
+			video.addEventListener('ended', function () {
 				scrubbing.width('100%');
 				clearInterval(_this.progressInterval);
 				
@@ -599,7 +601,7 @@
 				
 			}, true);
 			
-			video.addEventListener('timeupdate', function() {
+			video.addEventListener('timeupdate', function () {
 				_this.updateVideoData(this, scrubbing);
 				_this.updateCurrentTime(this);
 				
@@ -610,8 +612,11 @@
 			}, false);
 			
 			video.addEventListener('play', 
-				function() {
-					_this.bufferInterval = setInterval(function() { _this.updateBuffer(video, buffer) }, 1000);
+				function () {
+					_this.bufferInterval = setInterval(function () {
+						_this.updateBuffer(video, buffer);
+					}, 1000);
+					
 					$(this).parent().find(_this.getClass('play')).removeClass('paused').addClass('playing');
 					_this.seekVideoSetup(video);
 					
@@ -624,7 +629,7 @@
 				true
 			);
 			
-			 video.addEventListener('pause', function() {
+			 video.addEventListener('pause', function () {
 				$(this).parent().find(_this.getClass('play')).removeClass('playing').addClass('paused');
 				
 				if (_this.options.onPause) {
@@ -636,23 +641,23 @@
 						
 		},
 		
-		setupProgressBar: function() {
+		setupProgressBar: function () {
 			var progressBar = this.selector.find(this.getClass('progress-bar'));
 			var controlsSize = progressBar.parent().width() - this.getControlsSize();
 			
 			progressBar.width(controlsSize);
 		},
 		
-		setupSubtitles: function() {
+		setupSubtitles: function () {
 			var _this = this;
-			this.subtitleObj = {}
+			this.subtitleObj = {};
 			
 			var src = this.video.find('track').attr('src');
 			
 			if (src) {
 				$.ajax({
 					url: src,
-					success: function(data) {
+					success: function (data) {
 						_this.subtitleObj.loaded = true;
 						_this.subtitlesToArray(data);
 						_this.subtitleObj.count = 0;
@@ -671,15 +676,15 @@
 			}
 		},
 		
-		setupTime: function() {
+		setupTime: function () {
 			var time = this.selector.find(this.getClass('time-display'));
 			
-			var currentTime = time.find(this.getClass('time-current')).html(this.formatTime(0));
-			var totalTime = time.find(this.getClass('time-separator')).html(this.options.timeSeparator);
-			var timeSeparator = time.find(this.getClass('time-total')).html(this.formatTime(this.video.get(0).duration));
+			time.find(this.getClass('time-current')).html(this.formatTime(0));
+			time.find(this.getClass('time-separator')).html(this.options.timeSeparator);
+			time.find(this.getClass('time-total')).html(this.formatTime(this.video.get(0).duration));
 		},
 		
-		subtitlesToArray: function(data) {
+		subtitlesToArray: function (data) {
 			this.subtitleObj.content = [];
 			var breakLine = (data.search('\r\n') == -1) ? '\n' : '\r\n';
 			var records = data.split(breakLine + breakLine);
@@ -691,7 +696,7 @@
 			};
 		},
 		
-		timecodeToSec: function(tc) {
+		timecodeToSec: function (tc) {
 			if (tc) {
 				tc1 = tc.split(',');
 				tc2 = tc1[0].split(':');
@@ -701,7 +706,7 @@
 			}
 		},
 		
-		toFullscreen: function() {
+		toFullscreen: function () {
 			if (!this.fullscreen) {
 				if (this.selector.get(0).webkitRequestFullScreen) {
 					this.selector.get(0).webkitRequestFullScreen();
@@ -729,13 +734,13 @@
 			}
 		},
 		
-		unblockSelection: function() {
-			document.onselectstart = function() {
+		unblockSelection: function () {
+			document.onselectstart = function () {
 				return true;
-			}
+			};
 		},
 		
-		updateBuffer: function(video, buffer) {
+		updateBuffer: function (video, buffer) {
 			if (video.buffered && video.buffered.length > 0) {
 				var width = (video.buffered.end(0) / video.duration * 100) + '%';
 				buffer.width(width);
@@ -746,12 +751,12 @@
 			}
 		},
 		
-		updateCurrentTime: function(video) {
+		updateCurrentTime: function (video) {
 			var currentTime = $(video).parent().find(this.getClass('time-current'));
 			currentTime.html(this.formatTime(video.currentTime));
 		},
 		
-		updateSubtitle: function(video) {
+		updateSubtitle: function (video) {
 			var currentTime = video.currentTime;
 			
 			if (currentTime > this.getMinTime() && currentTime < this.getMaxTime()) {
@@ -769,30 +774,30 @@
 			this.subtitleObj.element.find('div:first').html(this.subtitleObj.subtitle);
 		},
 		
-		updateVideoData: function(video, scrubbing) {
+		updateVideoData: function (video, scrubbing) {
 			var pointer = scrubbing.parent().find(this.getClass('progress-pointer'));
 			var scrubbingWidth = video.currentTime * 100 / video.duration;
 			scrubbing.width(scrubbingWidth + '%');
 			pointer.css('left', scrubbingWidth + '%');
 		},
 		
-		volumeSetup: function() {
+		volumeSetup: function () {
 			var video = this.video.get(0);
 			var volWrapper = this.selector.find(this.getClass('volume-wrapper'));
 			var _this = this;
 			
-			volWrapper.bind('mousedown', function(event) {
+			volWrapper.bind('mousedown', function (event) {
 				event.preventDefault();
 				
 				_this.blockSelection();
 				
-				$(document).bind('mousemove', function(event) {
+				$(document).bind('mousemove', function (event) {
 					event.preventDefault();
 					_this.volumeTo(event.pageY, volWrapper, video);
 				});
 				
 				
-				$(document).bind('mouseup', function(event) {
+				$(document).bind('mouseup', function (event) {
 					event.preventDefault();
 					
 					_this.unblockSelection();
@@ -802,12 +807,12 @@
 				});
 			});
 			
-			volWrapper.bind('mouseup', function(event) {
+			volWrapper.bind('mouseup', function (event) {
 				_this.volumeTo(event.pageY, volWrapper, video);
 			});
 		},
 		
-		volumeTo: function(yPos, volWrapper, video) {
+		volumeTo: function (yPos, volWrapper, video) {
 			var volumeBar = $(this.getClass('volume-position'));
 			var volHeight = Math.max(0, Math.min(1, ( yPos - volWrapper.offset().top ) / volWrapper.height() ));
 			
@@ -825,9 +830,9 @@
 				volumeButton.removeClass('muted');
 			}
 		}
-	}
+	};
 	
-	$.fn.jQPlayer = function(options) {
+	$.fn.jQPlayer = function (options) {
 		var defaults = {
 			controls: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative'],
 			controlsClass: 'video-controls',
@@ -843,8 +848,9 @@
 			prefix: 'html-player-',
 			timeSeparator: '/',
 			videoId: 'video-'
-		}
+		};
+		
 		var options = $.extend(defaults, options);
 		return new VideoPlayer(this, options);
-	}
+	};
 })(jQuery);
