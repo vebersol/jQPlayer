@@ -1,0 +1,40 @@
+{
+	"name": "jQPlayer",
+	"version": "0.5.0",
+	"title": "HTML 5 Video Player Plugin for jQuery",
+	"author": {
+		"name": "Vinicius Ebersol",
+		"url": "http://en.vebersol.net"
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "www.opensource.org/licenses/MIT"
+		},
+		{
+			"type": "GPL",
+			"url": "http://www.gnu.org/licenses/gpl.html"
+		}
+	],
+	"dependencies": {
+		"jquery": "1.5.1"
+	},
+	"description": "A jQuery plugin to build custom HTML5 video players. The main features of this plugin include the ability to customize the player controls and the ability to choose different quality versions of the same video.",
+	"keywords": [
+		"video",
+		"html5",
+		"customizable",
+		"callback",
+		"events"
+	],
+	"homepage": "https://github.com/vebersol/jQPlayer",
+	"maintainers": [
+		{
+			"name": "Vinicius Ebersol",
+			"url": "http://en.vebersol.net"
+		}
+	],
+	"files": [
+		"jquery.jqplayer-0.5.0.js"
+	]
+}
