@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jqplayer by vebersol</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Jqplayer</h1>
+        <p>A custom HTML5 video player plugin for jQuery.</p>
+
+        <p class="view"><a href="https://github.com/vebersol/jQPlayer">View the Project on GitHub <small>vebersol/jQPlayer</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/vebersol/jQPlayer/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/vebersol/jQPlayer/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/vebersol/jQPlayer">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><img src="http://vebersol.net/logo.jpg" alt="logo"></p>
+
+<h1>jQPlayer - HTML 5 Video Player Plugin for jQuery</h1>
+
+<p>A jQuery plugin to build custom HTML5 video players.</p>
+
+<p>The main features of this plugin include the ability to customize the player controls and the ability to choose different quality versions of the same video.</p>
+
+<p>Demo: <a href="http://jqplayer.vebersol.net/">http://jqplayer.vebersol.net/</a></p>
+
+<h1>Advantages</h1>
+
+<ul>
+<li>More customizable options;</li>
+<li>Callback events for common actions like play, pause, end, etc;</li>
+<li>Custom buttons to add to your player bar;</li>
+<li>Possibility to add different versions (sd, hd) for the same video;</li>
+<li>Easy setup.</li>
+</ul><h1>Usage</h1>
+
+<div class="highlight"><pre><span class="c">&lt;!-- Add jQuery and the plugin file in your HTML page --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jquery-jqplayer-0.5.0.js"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="c">&lt;!-- Create an HTML element --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"video-element"</span><span class="nt">&gt;</span><span class="c">&lt;!-- --&gt;</span><span class="nt">&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- Setup the plugin and enjoy yourself! --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+  <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">videos</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">standard</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">source</span><span class="o">:</span> <span class="p">{</span>
+                        <span class="nx">mp4</span><span class="o">:</span> <span class="s1">'movie.mp4'</span><span class="p">,</span>
+                        <span class="nx">webm</span><span class="o">:</span> <span class="s1">'movie.webm'</span>
+                    <span class="p">},</span>
+                    <span class="nx">label</span><span class="o">:</span> <span class="s1">'SD'</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">};</span>
+
+        <span class="nx">$</span><span class="p">(</span><span class="s1">'#video-element'</span><span class="p">).</span><span class="nx">jQPlayer</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+<h1>API</h1>
+
+<h4>$.jQPlayer(options)</h4>
+
+<p>This method is used to build the player.</p>
+
+<h5>Options</h5>
+
+<ul>
+<li><p><strong>controls:</strong> (Array)<br>
+Set and order all available and custom controls.<br>
+By removing one of them, you will hide it from player.<br><em>Default value: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative']</em></p></li>
+<li><p><strong>controlsClass:</strong> (String)<br>
+Add a custom class to video player controls.<br><em>Default value: 'video-controls'</em></p></li>
+<li><p><strong>customButtons:</strong> (Object)<br>
+An object that receives all custom buttons.<br><em>Default value: {}</em></p></li>
+<li><p><strong>defaultVideo:</strong> (String)<br>
+Set the default video to be loaded on initialization.<br><em>Default value: 'standard'</em></p></li>
+<li><p><strong>floatControls:</strong> (Boolean)<br>
+To be defined.<br><em>Default value: false</em></p></li>
+<li><p><strong>onEnd:</strong> (Function)<br>
+A function that will be executed on video end.<br><em>Default value: false</em></p></li>
+<li><p><strong>onPause:</strong> (Function)<br>
+A function that will be executed on video pause.<br><em>Default value: false</em></p></li>
+<li><p><strong>onPlay:</strong> (Function)<br>
+A function that will be executed on video play.<br><em>Default value: false</em></p></li>
+<li><p><strong>onSeek:</strong> (Function)<br>
+A function that will be executed on video seek.<br><em>Default value: false</em></p></li>
+<li><p><strong>onStart:</strong> (Function)<br>
+A function that will be executed on video start.<br><em>Default value: false</em></p></li>
+<li><p><strong>onVideoChange:</strong> (Function)<br>
+A function that will be executed on video change.<br><em>Default value: false</em></p></li>
+<li><p><strong>prefix:</strong> (String)<br>
+A prefix to add for all used classes on the used HTML.<br><em>Default value: 'html-player-'</em></p></li>
+<li><p><strong>timeSeparator:</strong> (String)<br>
+A saparator to be used between current time and duration time.<br><em>Default value: '/'</em></p></li>
+<li><p><strong>videoId:</strong> (String)<br>
+Video element will assume an id like 'videoId' + incremental integer.<br><em>Default value: 'video-'</em></p></li>
+</ul><h1>How to setup a custom button</h1>
+
+<p>You can setup custom buttons by adding the following property to your options object:</p>
+
+<div class="highlight"><pre><span class="nx">customButtons</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s1">'custom_button_1'</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s1">'http://jqplayer.vebersol.net'</span><span class="p">,</span>
+    <span class="nx">label</span><span class="o">:</span> <span class="s1">'TEST'</span><span class="p">,</span>
+    <span class="nx">className</span><span class="o">:</span> <span class="s1">'custom-button-1'</span><span class="p">,</span>
+    <span class="nx">target</span><span class="o">:</span> <span class="s1">'_blank'</span>
+  <span class="p">},</span>
+
+  <span class="s1">'custom_button_2'</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">label</span><span class="o">:</span> <span class="s1">'TEST'</span><span class="p">,</span>
+    <span class="nx">className</span><span class="o">:</span> <span class="s1">'custom-button-1'</span><span class="p">,</span>
+    <span class="nx">onclick</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">alert</span><span class="p">(</span><span class="s1">'test'</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h1>How to setup a video and subtitles</h1>
+
+<p>You can add multiple qualities of videos that contain the source (mp4, webm or ogg). The property label will be used as option on quality menu.
+And finally, subtitle will be the path to srt file.</p>
+
+<div class="highlight"><pre><span class="nx">videos</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nx">p720</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">source</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">mp4</span><span class="o">:</span> <span class="s1">'media/sample720p.mp4'</span><span class="p">,</span>
+      <span class="nx">webm</span><span class="o">:</span> <span class="s1">'media/sample720p.webm'</span>
+    <span class="p">},</span>
+    <span class="nx">label</span><span class="o">:</span> <span class="s1">'720p'</span><span class="p">,</span>
+    <span class="nx">subtitle</span><span class="o">:</span> <span class="s1">'media/subtitles.srt'</span>
+  <span class="p">},</span>
+  <span class="nx">p360</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">source</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">mp4</span><span class="o">:</span> <span class="s1">'media/sample360p.mp4'</span><span class="p">,</span>
+      <span class="nx">webm</span><span class="o">:</span> <span class="s1">'media/sample360p.webm'</span>
+    <span class="p">},</span>
+    <span class="nx">label</span><span class="o">:</span> <span class="s1">'360p'</span><span class="p">,</span>
+    <span class="nx">subtitle</span><span class="o">:</span> <span class="s1">'media/subtitles.srt'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h1>Developers</h1>
+
+<p>This plugin has been developed by <a href="http://vebersol.net">Vinícius Ebersol</a>.</p>
+
+<p><a href="http://www.thiagoreis.com/">Thiago Reis</a> designed the concept and final layout of this player.</p>
+
+<h1>Contributing</h1>
+
+<p>If you want to contribute, please feel free, we encourage you to do this.</p>
+
+<h1>License</h1>
+
+<p>MIT License - <a href="http://www.opensource.org/licenses/MIT">http://www.opensource.org/licenses/MIT</a><br>
+GPL License - <a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a></p>
+
+<h1>Reporting bugs</h1>
+
+<p>Any bug report, please, see this link: <a href="https://github.com/vebersol/jQPlayer/issues">https://github.com/vebersol/jQPlayer/issues</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/vebersol">vebersol</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-30717183-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
