@@ -174,7 +174,6 @@ If you want to contribute, please feel free, we encourage you to do this.
 # License
 
 MIT License - http://www.opensource.org/licenses/MIT  
-GPL License - http://www.gnu.org/licenses/gpl.html
 
 # Reporting bugs
 
