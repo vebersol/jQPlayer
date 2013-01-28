@@ -1,4 +1,4 @@
-/*
+/**!
 
 	jQPlayer - HTML 5 Video Player Plugin for jQuery
 	Version: 0.5
