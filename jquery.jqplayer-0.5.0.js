@@ -368,26 +368,20 @@ var options;
 		},
 
 		createFlashElement: function () {
-			this.video = $('<object>').attr('width', '100%').attr('height', '100%');
+			this.video = $('<object type="application/x-shockwave-flash" width="100%" height="100%"></object>').attr('data', this.options.fallbackOptions.movie);
 			var params = {
 				"allowScriptAccess": "always",
 				"movie": this.options.fallbackOptions.movie,
-				"wmode": "transparent",
-				"scale": "exactfit",
-				"quality": "high",
-				"bgcolor": "red",
-				"menu": "true"
+				"allowNetworking": "all",
+				"wmode": "opaque",
+				"bgcolor": "#000000"
 			};
 
 			var flashvars = {
-				"video": this.getVideoSource(),
-				"loaded": "onLoaded"
+				"video": this.getVideoSource()
 			};
 
-			var flashData = this.addParams(params, flashvars);
-
-			this.video.append(flashData.params);
-			this.video.append(flashData.embed);
+			this.video.append(this.addParams(params, flashvars));
 
 			$(this.selector).append(this.video);
 		},
@@ -395,23 +389,23 @@ var options;
 		addParams: function (params, flashvars) {
 			var paramsArr = [],
 				flashVarsArr = [],
-				embed = $('<embed>');
+				embed = '<embed ';
 			
 			for (var fv in flashvars) {
 				flashVarsArr.push(fv + '=' +flashvars[fv]);
 			}
+
 			
 			params.flashvars = flashVarsArr.join('&');
 			
 			for (var i in params) {
 				paramsArr.push('<param name="' + i + '" value="' + params[i] + '">');
-				embed.attr(i, params[i]);
+				embed += i + '="' + params[i] + '" ';
 			}
+				
+			embed += '>';
 
-			return {
-				params: paramsArr.join(' '),
-				embed: embed
-			};
+			return paramsArr.join(' ') + embed;
 		},
 		
 		createProgressBar: function () {
