@@ -310,4 +310,11 @@
 }
 
 #video-element {position:relative; width:640px; height:360px; padding-bottom:12px;}
-#video-element.fullscreen {padding:0;}
+#video-element.fullscreen {
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	width: 100% !important;
+	height: 100% !important;
+	padding:0;
+}
