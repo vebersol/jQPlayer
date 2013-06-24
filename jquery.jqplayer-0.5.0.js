@@ -472,7 +472,7 @@ var options;
 		},
 
 		eventsToBind: function () {
-			if ($.inArray('progress', this.options.controls)) {		
+			if ($.inArray('progress', this.options.controls)) {
 				this.setProgressEvents(this.video.get(0));
 			}
 		
@@ -609,16 +609,32 @@ var options;
 			var volumePosition = this.selector.find(this.getClass('volume-position'));
 			var video = this.video.get(0);
 			
-			if (video.muted) {
-				video.muted = false;
-				volumeButton.removeClass('muted');
-				volumePosition
-				.height(video.volume * 100 + '%');
+			if (this.supportHTML5) {
+				if (video.muted) {
+					video.muted = false;
+					volumeButton.removeClass('muted');
+					volumePosition.height(video.volume * 100 + '%');
+				}
+				else {
+					video.muted = true;
+					volumeButton.addClass('muted');
+					volumePosition.height(0);
+				}
 			}
 			else {
-				video.muted = true;
-				volumeButton.addClass('muted');
-				volumePosition.height(0);
+				if (this.flashMuted) {
+					this.flashMuted = false;
+					video.volume(this.flashVolume);
+					volumeButton.removeClass('muted');
+					volumePosition.height(this.flashVolume * 100 + '%');
+				}
+				else {
+					this.flashMuted = true;
+					this.flashVolume = video.getVolume();
+					video.volume(0);
+					volumeButton.addClass('muted');
+					volumePosition.height(0);
+				}
 			}
 		},
 
@@ -989,7 +1005,13 @@ var options;
 			var volHeight = Math.max(0, Math.min(1, ( yPos - volWrapper.offset().top ) / volWrapper.height() ));
 			
 			var invertedPercent = (volHeight - 1) * -1;
-			video.volume = invertedPercent;
+
+			if (this.supportHTML5) {
+				video.volume = invertedPercent;
+			}
+			else {
+				video.volume(invertedPercent);
+			}
 			
 			volumeBar.height(invertedPercent * 100 + '%');
 			
