@@ -377,7 +377,6 @@ var options;
 		},
 
 		createFlashElement: function () {
-			this.video = $('<object type="application/x-shockwave-flash" width="100%" height="100%"></object>').attr('data', this.options.fallbackOptions.movie);
 			var params = {
 				"allowScriptAccess": "always",
 				"movie": this.options.fallbackOptions.movie,
@@ -390,7 +389,11 @@ var options;
 				"video": this.getVideoSource()
 			};
 
-			this.video.append(this.addParams(params, flashvars));
+			var fallbackHTML = '<object type="application/x-shockwave-flash" width="100%" height="100%" data="' + this.options.fallbackOptions.movie + '">';
+			fallbackHTML += this.addParams(params, flashvars);
+			fallbackHTML += '</object>';
+
+			this.video = $(fallbackHTML);
 
 			$(this.selector).append(this.video);
 		},
