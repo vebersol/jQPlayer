@@ -189,7 +189,13 @@ var options;
 				video.pause();
 			
 				this.resetVideo();
-				video.src = this.getVideoSource(version);
+
+				if (this.supportHTML5) {
+					video.src = this.getVideoSource(version);
+				}
+				else {
+					video.changeVideo(this.getVideoSource(version));
+				}
 				
 				var ul = $(this.getClass('alternative-versions')).find('ul');
 				ul.html('');
@@ -832,6 +838,18 @@ var options;
 							_this.options.onSeek.call();
 						}
 					}, 200);
+				});
+
+				$(document).bind('flash.videoChanged', function () {
+					flashObj.play();
+
+					if (_this.subtitleObj && _this.subtitleObj.loaded) {
+						_this.adjustSubtitle(flashObj);
+					}
+				
+					if (_this.options.onVideoChange) {
+						_this.options.onVideoChange.call();
+					}
 				});
 			}
 		},
