@@ -24,8 +24,8 @@ var options;
 
 	VideoPlayer.prototype = {
 		init: function () {
-			this.startFallback();
-			// this.checkSupport();
+			// this.startFallback();
+			this.checkSupport();
 
 
 			/*this.getDefaultVideo();
@@ -88,7 +88,7 @@ var options;
 			}
 		},
 
-		bindControls: function (video) {
+		bindControls: function () {
 			var _this = this;
 			
 			for (var i = 0; i < this.options.controls.length; i++) {
@@ -233,9 +233,11 @@ var options;
 		checkSupport: function () {
 			var videoEl = document.createElement('video');
 			if (videoEl.canPlayType) {
+				this.supportHTML5 = true;
 				return this.start();
 			}
 			else {
+				this.supportHTML5 = false;
 				var hasFlash = false;
 				try {
 					var activeX = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
@@ -529,12 +531,21 @@ var options;
 		},
 		
 		fullscreenEvent: function () {
-			this.setupProgressBar();
-			
-			var fullScreenBtn = $(this.getClass('fullscreen'));			
+			var fullScreenBtn = $(this.getClass('fullscreen'));
 			fullScreenBtn.toggleClass('fullscreen');
-			
-			this.selector.toggleClass('fullscreen');
+
+			if (!this.fullscreen) {
+				this.selector.addClass('fullscreen');
+				fullScreenBtn.removeClass('hover');
+				this.fullscreen = true;
+			}
+			else {
+				this.selector.removeClass('fullscreen');
+				fullScreenBtn.removeClass('hover');
+				this.fullscreen = false;
+			}
+
+			this.setupProgressBar();
 		},
 		
 		getClass: function (name) {
@@ -590,10 +601,10 @@ var options;
 				videoObj = this.defaultVideo;
 			}
 			
-			if (this.supportHTML5 && (($.browser.safari && !/Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)) || $.browser.msie)) {
+			if (this.supportHTML5 && (($.browser.safari && /Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)) || $.browser.msie)) {
 				return videoObj.source.mp4;
 			}
-			else {
+			else if (!this.supportHTML5) {
 				return this.options.fallbackOptions.relativePath + videoObj.source.mp4;
 			}
 			
@@ -932,6 +943,9 @@ var options;
 		},
 		
 		toFullscreen: function () {
+			clearTimeout(this.fullscreenTimeout);
+			var _this = this;
+
 			if (this.supportHTML5) {
 				if (!this.fullscreen) {
 					if (this.selector.get(0).webkitRequestFullScreen) {
@@ -939,12 +953,7 @@ var options;
 					}
 					else if (this.selector.get(0).mozRequestFullScreen) {
 						this.selector.get(0).mozRequestFullScreen();
-						this.setupProgressBar();
 					}
-					
-					$(this.getClass('fullscreen')).removeClass('hover');
-					
-					this.fullscreen = true;
 				}
 				else {
 					if (document.webkitCancelFullScreen) {
@@ -953,10 +962,6 @@ var options;
 					else if (document.mozCancelFullScreen) {
 						document.mozCancelFullScreen();
 					}
-					
-					$(this.getClass('fullscreen')).removeClass('hover');
-					
-					this.fullscreen = false;
 				}
 			}
 			else {
@@ -966,17 +971,20 @@ var options;
 
 				if (!this.fullscreen) {
 					this.selector.addClass('fullscreen');
-					this.setupProgressBar();
 					$(this.getClass('fullscreen')).removeClass('hover');
 					this.fullscreen = true;
 				}
 				else {
 					this.selector.removeClass('fullscreen');
-					this.setupProgressBar();
 					$(this.getClass('fullscreen')).removeClass('hover');					
 					this.fullscreen = false;
 				}
+				
+				setTimeout(function () {
+					_this.setupProgressBar();
+				}, 100);
 			}
+
 		},
 		
 		unblockSelection: function () {
