@@ -674,9 +674,13 @@ var options;
 		},
 
 		playEvent: function (element) {
-			// _this.bufferInterval = setInterval(function () {
-			// 	_this.updateBuffer(video, buffer);
-			// }, 1000);
+			if (this.supportHTML5) {
+				var _this = this;
+				var buffer = $(this.getClass('progress-buffer'));
+				this.bufferInterval = setInterval(function () {
+					_this.updateBuffer(element, buffer);
+				}, 1000);
+			}
 			
 			$(element).parent().find(this.getClass('play')).removeClass('paused').addClass('playing');
 			this.seekVideoSetup(element);
@@ -998,8 +1002,13 @@ var options;
 		
 		updateBuffer: function (video, buffer) {
 			if (video.buffered && video.buffered.length > 0) {
-				var width = (video.buffered.end(0) / video.duration * 100) + '%';
+				var buffered = video.buffered.end(0) / video.duration;
+				var width = (buffered * 100) + '%';
 				buffer.width(width);
+				
+				if (buffered == 1) {
+					clearInterval(this.bufferInterval);
+				}
 			}
 			else {
 				buffer.width('100%');
