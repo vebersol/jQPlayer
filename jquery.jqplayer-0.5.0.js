@@ -400,10 +400,11 @@ var options;
 				"video": this.getVideoSource()
 			};
 
-			var ieFix = '';
-			alert(Math.round(Math.random() * 1000000000));
+			var ieFix = '',
+			randomId = this.setClass('fallback') + '_' + Math.floor(Math.random() * 999);
+
 			if ($.browser.msie) {
-				ieFix = ' id="dummy" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"';
+				ieFix = ' id="' + randomId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"';
 			}
 
 			var fallbackHTML = '<object type="application/x-shockwave-flash" width="100%" height="100%" data="' + this.options.fallbackOptions.movie + '" ' + ieFix + '>';
