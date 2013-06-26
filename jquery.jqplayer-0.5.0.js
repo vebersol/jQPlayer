@@ -24,20 +24,13 @@ var options;
 
 	VideoPlayer.prototype = {
 		init: function () {
-			// this.startFallback();
-			this.checkSupport();
-
-
-			/*this.getDefaultVideo();
-			this.createVideoElement();
-			this.createControls();
-			this.bindControls();
-			this.bindEvents();
-			this.setupSubtitles();
-
-			if (this.options.onStart) {
-				this.options.onStart.call();
-			}*/
+			if (this.options.fallbackOptions.videos) {
+				this.checkSupport();
+			}
+			else {
+				this.supportHTML5 = true;
+				this.start();
+			}
 		},
 
 		start: function () {
@@ -468,16 +461,24 @@ var options;
 		},
 		
 		createVideoElement: function () {
-			this.video = $('<video>Your browser doesn\'t support video tag.</video>');
-			this.video.attr('src', this.getVideoSource());
-			this.video.width('100%');
-			this.video.height('100%');
-			
-			if (this.defaultVideo.subtitle) {
-				this.video.append('<track src="'+this.defaultVideo.subtitle+'"></track>');
+			try {
+				this.video = $('<video>Your browser doesn\'t support video tag.</video>');
+				this.video.attr('src', this.getVideoSource());
+				this.video.width('100%');
+				this.video.height('100%');
+				
+				if (this.defaultVideo.subtitle) {
+					this.video.append('<track src="'+this.defaultVideo.subtitle+'"></track>');
+				}
+				
+				$(this.selector).append(this.video);
+			} catch (e) {
+				this.supportHTML5 = false;
+				var errorEl = $('<p class="' + this.setClass('error-message') + '"></p>')
+				.html('Your browser doesn\'t support html5 video. Try to setup a fallback in options.');
+				$(this.selector).append(errorEl);
 			}
-			
-			$(this.selector).append(this.video);			
+
 		},
 		
 		createVolumeBar: function () {
