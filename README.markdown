@@ -112,10 +112,10 @@ Video element will assume an id like 'videoId' + incremental integer.
 *Default value: 'video-'*
 
 * **fallbackOptions:** (String)  
-Define the relative path to get videos and the swf path to embed the flash file.
-*Default values: {*
-  *relativePath: '../',*
-  *movie: 'media/jQPlayer.swf'*
+Define the relative path to get videos and the swf path to embed the flash file.  
+*Default values: {*  
+  *relativePath: '../',*  
+  *movie: 'media/jQPlayer.swf'*  
 *}*
 
 # How to setup a custom button
