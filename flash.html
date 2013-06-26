@@ -19,11 +19,12 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
 	<script src="jquery.jqplayer-0.5.0.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		var playerTest;
+		var playerTest,
+			options;
 		
 		$(document).ready(function() {
 			
-			var options = {
+			options = {
 				subtitle: true,
 				controls: ['play', 'progress', 'time', 'volume', 'fullscreen', 'alternative'],
 				videos: {
@@ -45,7 +46,7 @@
 					}
 				},
 				defaultVideo: 'p360',
-				onVideoChange: function() {
+				/*onVideoChange: function() {
 					var quality = $('.html-player-alternative-versions');
 					var videoEl = $('#video-element');
 					if (!quality.hasClass('p360')) {
@@ -56,12 +57,27 @@
 					
 					playerTest.setupProgressBar();
 				},
+				onPlay: function () {
+					console.log('play');
+				},
+				onPause: function () {
+					console.log('pause');
+				},
+				onSeek: function () {
+					console.log('seek')
+				},
+				onEnd: function () {
+					console.log('end')
+				},
+				onStart: function () {
+					console.log('start')
+				},*/
 				fallbackOptions: {
 					relativePath: '../',
 					movie: 'media/jQPlayer.swf'
 				}
 			};
-			
+
 			playerTest = $('#video-element').jQPlayer(options);
 		});
 	</script>

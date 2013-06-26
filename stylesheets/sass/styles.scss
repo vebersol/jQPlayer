@@ -19,6 +19,7 @@ $color2: #333333;
 	width:100%;
 	background:url(#{$bg-path}/bg_main.jpg);
 	z-index:100;
+
 	
 	.html-player-play {
 		float:left;
@@ -62,6 +63,7 @@ $color2: #333333;
 			height:$main-height;
 			width:90%;
 			margin:0 auto;
+			cursor: default; /* ie7 fix */
 
 			.html-player-progress-play {
 				position:absolute;
@@ -322,6 +324,11 @@ $color2: #333333;
 	}
 }
 
+object {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
 
 #video-element.p720 .html-player-subtitle {
 	font-size:28px;

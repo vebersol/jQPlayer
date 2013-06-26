@@ -29,7 +29,9 @@
       position: relative;
       height: 33px;
       width: 90%;
-      margin: 0 auto; }
+      margin: 0 auto;
+      cursor: default;
+      /* ie7 fix */ }
       .html-player-video-controls .html-player-progress-bar .html-player-progress-wrapper .html-player-progress-play {
         position: absolute;
         height: 6px;
@@ -220,6 +222,11 @@
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none; }
+
+object {
+  position: absolute;
+  top: 0;
+  left: 0; }
 
 #video-element.p720 .html-player-subtitle {
   font-size: 28px; }
