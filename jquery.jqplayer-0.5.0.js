@@ -24,12 +24,28 @@ var options;
 
 	VideoPlayer.prototype = {
 		init: function () {
-			if (this.options.fallbackOptions.videos) {
-				this.checkSupport();
+			var videoEl = document.createElement('video');
+			if (videoEl.canPlayType) {
+				this.supportHTML5 = true;
+				return this.start();
 			}
 			else {
-				this.supportHTML5 = true;
-				this.start();
+				this.supportHTML5 = false;
+				var hasFlash = false;
+				try {
+					var activeX = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+					if (activeX) {
+						hasFlash = true;
+					}
+				} catch (e) {
+					if (navigator.mimeTypes["application/x-shockwave-flash"] != undefined) {
+						hasFlash = true;
+					}
+				}
+
+				if (hasFlash) {
+					this.startFallback();
+				}
 			}
 		},
 
@@ -47,12 +63,6 @@ var options;
 		},
 
 		startFallback: function () {
-			console.log('start flash');
-			if (!this.options.fallbackOptions) {
-				alert('fallbackOptions not set');
-				return false;
-			}
-
 			var _this = this;
 
 			this.supportHTML5 = false;
@@ -233,32 +243,6 @@ var options;
 				}
 			}
 		},
-
-		checkSupport: function () {
-			var videoEl = document.createElement('video');
-			if (videoEl.canPlayType) {
-				this.supportHTML5 = true;
-				return this.start();
-			}
-			else {
-				this.supportHTML5 = false;
-				var hasFlash = false;
-				try {
-					var activeX = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
-					if (activeX) {
-						hasFlash = true;
-					}
-				} catch (e) {
-					if (navigator.mimeTypes["application/x-shockwave-flash"] != undefined) {
-						hasFlash = true;
-					}
-				}
-
-				if (hasFlash) {
-					this.startFallback();
-				}
-			}
-		},
 		
 		createAlternative: function () {
 			var element = $('<div class="'+ this.setClass('alternative-versions') +'"></div>');
@@ -383,7 +367,7 @@ var options;
 		createFlashElement: function () {
 			var params = {
 				"allowScriptAccess": "always",
-				"movie": this.options.fallbackOptions.movie,
+				"movie": this.options.fallbackOptions.swf,
 				"allowNetworking": "all",
 				"wmode": "transparent",
 				"bgcolor": "#000000"
@@ -400,7 +384,7 @@ var options;
 				ieFix = ' id="' + randomId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"';
 			}
 
-			var fallbackHTML = '<object type="application/x-shockwave-flash" width="100%" height="100%" data="' + this.options.fallbackOptions.movie + '" ' + ieFix + '>';
+			var fallbackHTML = '<object type="application/x-shockwave-flash" width="100%" height="100%" data="' + this.options.fallbackOptions.swf + '" ' + ieFix + '>';
 			fallbackHTML += this.addParams(params, flashvars);
 			fallbackHTML += '</object>';
 
@@ -1156,8 +1140,8 @@ var options;
 			timeSeparator: '/',
 			videoId: 'video-',
 			fallbackOptions: {
-				defaultVideo: 'standard',
-				videos: false
+				relativePath: '../',
+				movie: 'media/jQPlayer.swf'
 			}
 		};
 		
