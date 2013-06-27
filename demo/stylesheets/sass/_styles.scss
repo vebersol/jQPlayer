@@ -248,7 +248,7 @@
 		width:30px;
 	}
 
-	.inactive {
+	&.inactive {
 		height:12px;
 
 		.html-player-play {
@@ -280,7 +280,7 @@
 
 		.html-player-progress-play,
 		.html-player-progress-buffer {
-			top:3px;
+			top:3px !important;
 		}
 	}
 }

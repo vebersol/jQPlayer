@@ -359,40 +359,40 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   width: 30px;
 }
 /* line 251, ../sass/_styles.scss */
-.html-player-video-controls .inactive {
+.html-player-video-controls.inactive {
   height: 12px;
 }
 /* line 254, ../sass/_styles.scss */
-.html-player-video-controls .inactive .html-player-play {
+.html-player-video-controls.inactive .html-player-play {
   opacity: 0;
 }
 /* line 264, ../sass/_styles.scss */
-.html-player-video-controls .inactive .html-player-play,
-.html-player-video-controls .inactive .html-player-progress-bar,
-.html-player-video-controls .inactive .html-player-progress-wrapper,
-.html-player-video-controls .inactive .html-player-time-display,
-.html-player-video-controls .inactive .html-player-volume,
-.html-player-video-controls .inactive .html-player-fullscreen,
-.html-player-video-controls .inactive .html-player-alternative-versions {
+.html-player-video-controls.inactive .html-player-play,
+.html-player-video-controls.inactive .html-player-progress-bar,
+.html-player-video-controls.inactive .html-player-progress-wrapper,
+.html-player-video-controls.inactive .html-player-time-display,
+.html-player-video-controls.inactive .html-player-volume,
+.html-player-video-controls.inactive .html-player-fullscreen,
+.html-player-video-controls.inactive .html-player-alternative-versions {
   height: 12px;
 }
 /* line 273, ../sass/_styles.scss */
-.html-player-video-controls .inactive .html-player-play > *,
-.html-player-video-controls .inactive .html-player-time-display,
-.html-player-video-controls .inactive .html-player-volume,
-.html-player-video-controls .inactive .html-player-fullscreen,
-.html-player-video-controls .inactive .html-player-alternative-versions,
-.html-player-video-controls .inactive .html-player-progress-pointer {
+.html-player-video-controls.inactive .html-player-play > *,
+.html-player-video-controls.inactive .html-player-time-display,
+.html-player-video-controls.inactive .html-player-volume,
+.html-player-video-controls.inactive .html-player-fullscreen,
+.html-player-video-controls.inactive .html-player-alternative-versions,
+.html-player-video-controls.inactive .html-player-progress-pointer {
   display: none;
 }
 /* line 277, ../sass/_styles.scss */
-.html-player-video-controls .inactive .html-player-progress-bar {
+.html-player-video-controls.inactive .html-player-progress-bar {
   background: none;
 }
 /* line 282, ../sass/_styles.scss */
-.html-player-video-controls .inactive .html-player-progress-play,
-.html-player-video-controls .inactive .html-player-progress-buffer {
-  top: 3px;
+.html-player-video-controls.inactive .html-player-progress-play,
+.html-player-video-controls.inactive .html-player-progress-buffer {
+  top: 3px !important;
 }
 
 /* line 288, ../sass/_styles.scss */
