@@ -1,17 +1,4 @@
-@mixin vendor-prefix($name, $argument) {
-        #{$name}: $argument;
-        -webkit-#{$name}: $argument;
-        -moz-#{$name}: $argument;
-        -ms-#{$name}: $argument;
-        -o-#{$name}: $argument;
-}
-
-$bg-path: '../../img';
-$sprite-path: $bg-path + '/sprite.png';
-$basic-font: Helvetica, Arial, sans-serif;
-$main-height: 33px;
-$color1: #FFFFFF;
-$color2: #333333;
+@import "variables";
 
 .html-player-video-controls {
 	position:absolute;
@@ -23,28 +10,27 @@ $color2: #333333;
 	
 	.html-player-play {
 		float:left;
-		width:$main-height;
-		height:$main-height;
-		background:url($sprite-path) -10px -10px no-repeat;
+		@include icons-sprite(play);
+		
 
 		&.hover {
-			background-position:-71px -10px;
+			@include icons-sprite(play_dark);
 		}
 
 		&.paused {
-			background-position:-10px -10px;
+			@include icons-sprite(play);
 			
 			&.hover {
-				background-position:-71px -10px;
+				@include icons-sprite(play_dark);
 			}
 		}
 
 
 		&.playing {
-			background-position:-10px -257px;
+			@include icons-sprite(pause);
 			
 			&.hover {
-				background-position:-71px -257px;
+				@include icons-sprite(pause_dark);
 			}
 		}
 
@@ -76,12 +62,10 @@ $color2: #333333;
 
 			.html-player-progress-pointer {
 				position:absolute;
-				width:16px;
-				height:16px;
-				background:url($sprite-path) -131px -9px no-repeat;
 				margin:-4px -8px;
-				top:12px;
+				top:8px;
 				z-index:2;
+				@include icons-sprite(progress_pointer);
 			}
 
 			.html-player-progress-buffer {
@@ -119,16 +103,14 @@ $color2: #333333;
 	
 	.html-player-volume {
 		float:left;
-		width:51px;
-		height:$main-height;
 		position:relative;
-		background:url($sprite-path) -10px -63px no-repeat;
+		@include icons-sprite(volume);
 
 		&.hover {
-			background-position:-71px -63px;
+			@include icons-sprite(volume_dark);
 
 			.html-player-volume-button.muted {
-				background-position:-132px -107px;
+				@include icons-sprite(mute_dark);
 			}
 
 			.html-player-volume-bar {
@@ -138,7 +120,6 @@ $color2: #333333;
 				left:10px;
 				width:30px;
 				height:86px;
-				// background:url($sprite-path) -10px -151px;
 				background-color: $color2;
 				@include vendor-prefix(border-top-left-radius, 4px);
 				@include vendor-prefix(border-top-right-radius, 4px);
@@ -151,7 +132,7 @@ $color2: #333333;
 			height:$main-height;
 	
 			&.muted {
-				background:url($sprite-path) -132px -63px no-repeat;
+				@include icons-sprite(mute);
 			}
 		}
 
@@ -183,19 +164,17 @@ $color2: #333333;
 
 	.html-player-fullscreen {
 		float:left;
-		width:49px;
-		height:$main-height;
-		background:url($sprite-path) -10px -106px no-repeat;
+		@include icons-sprite(fullscreen);
 
 		&.hover {
-			background-position:-71px -106px;
+			@include icons-sprite(fullscreen_dark);
 		}
 
 		&.fullscreen {
-			background-position:-131px -151px;
+			@include icons-sprite(reduce_screen);
 
 			&.hover {
-				background-position:-131px -195px;
+				@include icons-sprite(reduce_screen_dark);
 			}
 		}
 
@@ -236,7 +215,6 @@ $color2: #333333;
 			list-style:none;
 			margin:0;
 			padding:10px 0;
-			// background:url(#{$bg-path}/bg_versions.png) bottom center;
 			background-color: $color2;
 			width:$width;
 			position:absolute;
