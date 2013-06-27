@@ -149,7 +149,12 @@ var options;
 			};
 			
 			var leave = function () {
-				$(this).removeClass('hover');
+				var element = $(this);
+				if (element.hasClass(_this.getClass('volume').replace('.', '')) && _this.volumeFlag) {
+					return false;
+				}
+
+				element.removeClass('hover');
 			};
 			
 			$(this.getClass('play')).hover(enter, leave);
@@ -172,9 +177,14 @@ var options;
 				clearTimeout(_this.inactivateTimer);
 				_this.selector.find(_this.getClass('video-controls')).removeClass('inactive');
 			});
+
+			this.selector.find(this.getClass('video-controls')).bind('mousedown', function (ev) {
+				ev.preventDefault();
+			});
 		},
 		
 		blockSelection: function () {
+			this.volumeFlag = true;
 			document.onselectstart = function () {
 				return false;
 			};
@@ -1002,6 +1012,7 @@ var options;
 		},
 		
 		unblockSelection: function () {
+			this.volumeFlag = false;
 			document.onselectstart = function () {
 				return true;
 			};
@@ -1069,7 +1080,10 @@ var options;
 		volumeSetup: function () {
 			var video = this.video.get(0);
 			var volWrapper = this.selector.find(this.getClass('volume-wrapper'));
+			var volArea = $(this.getClass('volume'));
 			var _this = this;
+
+			this.volumeFlag = false;
 			
 			volWrapper.bind('mousedown', function (event) {
 				event.preventDefault();
@@ -1084,6 +1098,10 @@ var options;
 				
 				$(document).bind('mouseup', function (event) {
 					event.preventDefault();
+					
+					if (event.target.className.search('volume') < 0) {
+						volArea.removeClass('hover')
+					}
 					
 					_this.unblockSelection();
 					
