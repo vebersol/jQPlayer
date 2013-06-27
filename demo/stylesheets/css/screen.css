@@ -144,8 +144,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /* line 63, ../sass/_styles.scss */
 .html-player-video-controls .html-player-progress-bar .html-player-progress-wrapper .html-player-progress-pointer {
   position: absolute;
-  margin: -4px -8px;
-  top: 8px;
+  margin: 0 -12px;
+  top: 4px;
   z-index: 2;
   background-position: -332px 0;
   height: 24px;

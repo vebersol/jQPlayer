@@ -62,8 +62,8 @@
 
 			.html-player-progress-pointer {
 				position:absolute;
-				margin:-4px -8px;
-				top:8px;
+				margin:0 -12px;
+				top:4px;
 				z-index:2;
 				@include icons-sprite(progress_pointer);
 			}
