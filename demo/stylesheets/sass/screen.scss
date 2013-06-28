@@ -1,4 +1,7 @@
-@import "compass/reset";
+//@import "compass/reset";
+
+@import "bootstrap/bootstrap";
+@import "bootstrap/responsive";
 
 $icons-sprite-dimensions: true;
 //$icons-spacing: 10px;
@@ -7,3 +10,4 @@ $icon-clean-up: true;
 @import "icons/*.png";
 
 @import "styles";
+@import "demo";

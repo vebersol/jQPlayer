@@ -1,5 +1,14 @@
 @import "variables";
 
+.html-player-poster {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+}
+
 .html-player-video-controls {
 	position:absolute;
 	bottom:0;
@@ -293,6 +302,7 @@
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	width:100%;
 	text-align:center;
+	z-index: 2;
 
 	.html-player-subtitle-content {
 		margin:0 20px;
@@ -306,24 +316,5 @@ object {
 	position: absolute;
 	top: 0;
 	left: 0;
-}
-
-#video-element.p720 .html-player-subtitle {
-	font-size:28px;
-}
-
-:-moz-full-screen .html-player-subtitle,
-:-webkit-full-screen .html-player-subtitle,
-:fullscreen .html-player-subtitle {
-	font-size:28px;
-}
-
-#video-element {position:relative; width:640px; height:360px; padding-bottom:12px;}
-#video-element.fullscreen {
-	position: absolute !important;
-	top: 0;
-	left: 0;
-	width: 100% !important;
-	height: 100% !important;
-	padding:0;
+	z-index: 1;
 }

@@ -1,0 +1,48 @@
+body {
+	padding-top: 40px;
+}
+
+.jqplayer-logo {
+	display: block;
+	margin: 5px 10px 0 0;
+	@include icons-sprite(jqplayer);
+
+	span {
+		display: block;
+		text-indent: -9999px;
+		overflow: hidden;
+	}
+}
+
+.jumbotron {
+	text-align: center;
+
+	h1 {
+		text-align: center;
+	}
+}
+
+#video-element.p720 .html-player-subtitle {
+	font-size:28px;
+}
+
+:-moz-full-screen .html-player-subtitle,
+:-webkit-full-screen .html-player-subtitle,
+:fullscreen .html-player-subtitle {
+	font-size:28px;
+}
+
+#video-element {
+	position:relative;
+	padding-bottom:12px;
+	background-color: black;
+}
+
+#video-element.fullscreen {
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	width: 100% !important;
+	height: 100% !important;
+	padding:0;
+}
