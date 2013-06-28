@@ -7,7 +7,7 @@
 	Author: Vinícius Ebersol
 	Designer: Thiago Reis
 	
-	License: MIT License/GPL License
+	License: MIT License
 	
 */
 var options;
