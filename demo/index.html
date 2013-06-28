@@ -275,17 +275,6 @@ videos: {
 						}
 					},
 					defaultVideo: 'p360',
-					onVideoChange: function() {
-						var quality = $('.html-player-alternative-versions');
-						var videoEl = $('#video-element');
-						if (!quality.hasClass('p360')) {
-							videoEl.width('1280').height('720').addClass('p720');
-						} else {
-							videoEl.width('640').height('360').removeClass('p720');
-						}
-						
-						playerTest.setupProgressBar();
-					},
 					fallbackOptions: {
 						relativePath: '../demo/',
 						swf: '../swf/jQPlayer.swf'
