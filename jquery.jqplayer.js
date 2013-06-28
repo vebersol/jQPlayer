@@ -19,6 +19,7 @@ var options;
 		this.idCounter = 0;
 		this.playing = false;
 		this.supportHTML5 = true;
+		this.posterVisible = false;
 		this.init();
 	};
 
@@ -180,6 +181,10 @@ var options;
 
 			this.selector.find(this.getClass('video-controls')).bind('mousedown', function (ev) {
 				ev.preventDefault();
+			});
+
+			$(window).bind('resize', function () {
+				_this.setupProgressBar();
 			});
 		},
 		
@@ -375,6 +380,8 @@ var options;
 		},
 
 		createFlashElement: function () {
+			this.createPoster();
+
 			var params = {
 				"allowScriptAccess": "always",
 				"movie": this.options.fallbackOptions.swf,
@@ -424,6 +431,15 @@ var options;
 
 			return paramsArr.join(' ') + embed;
 		},
+
+		createPoster: function () {
+			if (this.defaultVideo.poster) {
+				var poster = $('<img src="' + this.defaultVideo.poster + '" class="' + this.setClass('poster') + '">');
+
+				this.selector.append(poster);
+				this.posterVisible = true;
+			}
+		},
 		
 		createProgressBar: function () {
 			var progressBar = $('<div>').addClass(this.setClass('progress-bar'));
@@ -456,6 +472,8 @@ var options;
 		
 		createVideoElement: function () {
 			try {
+				this.createPoster();
+
 				this.video = $('<video>Your browser doesn\'t support video tag.</video>');
 				this.video.attr('src', this.getVideoSource());
 				this.video.width('100%');
@@ -633,6 +651,11 @@ var options;
 		
 		hideControls: function (controls) {
 			controls.animate({bottom: '-' + controls.height() + 'px'});
+		},
+
+		hidePoster: function () {
+			this.selector.find(this.getClass('poster')).hide();
+			this.posterVisible = false;
 		},
 		
 		incrementId: function () {
@@ -825,6 +848,10 @@ var options;
 				
 				video.addEventListener('play', 
 					function () {
+						if (_this.posterVisible) {
+							_this.hidePoster();
+						}
+
 						_this.playEvent(this);
 					},
 					true
@@ -846,6 +873,10 @@ var options;
 				}, 500);
 
 				$(document).bind('flash.play', function () {
+					if (_this.posterVisible) {
+						_this.hidePoster();
+					}
+
 					_this.playEvent(flashObj);
 				});
 
@@ -891,8 +922,10 @@ var options;
 		
 		setupProgressBar: function () {
 			var progressBar = this.selector.find(this.getClass('progress-bar'));
-			var controlsSize = progressBar.parent().width() - this.getControlsSize();
+			var progBarWidth = this.selector.width();
+			var controlsSize = progressBar.parent().width() - parseInt(this.getControlsSize());
 			
+			progressBar.parent().width(progBarWidth); // avoid resize issues on responsive templates
 			progressBar.width(controlsSize);
 		},
 		
@@ -1159,7 +1192,7 @@ var options;
 			videoId: 'video-',
 			fallbackOptions: {
 				relativePath: '../',
-				movie: 'media/jQPlayer.swf'
+				swf: 'media/jQPlayer.swf'
 			}
 		};
 		
