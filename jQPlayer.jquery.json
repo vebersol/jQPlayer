@@ -3,7 +3,7 @@
 	"title": "jQPlayer - HTML 5 Video Player Plugin for jQuery",
 	"description": "A jQuery plugin to build custom HTML5 video players.  The main features of this plugin include the ability to customize the player controls and the ability to choose different quality versions of the same video. ",
 	"keywords": ["jquery", "jqplayer", "plugins", "html5", "video"],
-	"version": "0.5.2",
+	"version": "0.6.0",
 	"author": {
 		"name": "Vinícius Ebersol",
 		"url": "http://en.vebersol.net"
