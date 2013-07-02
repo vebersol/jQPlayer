@@ -923,7 +923,7 @@ var options;
 		setupProgressBar: function () {
 			var progressBar = this.selector.find(this.getClass('progress-bar'));
 			var progBarWidth = this.selector.width();
-			var controlsSize = progressBar.parent().width() - parseInt(this.getControlsSize());
+			var controlsSize = progBarWidth - parseInt(this.getControlsSize());
 			
 			progressBar.parent().width(progBarWidth); // avoid resize issues on responsive templates
 			progressBar.width(controlsSize);
