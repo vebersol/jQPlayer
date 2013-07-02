@@ -7,6 +7,20 @@
 		<meta charset="UTF-8">
 		<title>jQPlayer Demo</title>
 		<link rel="stylesheet" href="stylesheets/css/screen.css" type="text/css">
+
+		<script type="text/javascript">
+			if (window.location.host.match(/jqplayer\.vebersol\.net/)){
+				var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', 'UA-30717183-1']);
+				_gaq.push(['_trackPageview']);
+
+				(function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				})();
+			}
+		</script>
 	</head>
 	<body>
 		<div class="navbar navbar-fixed-top navbar-inverse">
@@ -15,10 +29,12 @@
 					<li class="active"><a href="#home">Home</a></li>
 					<li><a href="#download">Download</a></li>
 					<li><a href="#about">About</a></li>
-					<li><a href="javascript:;">Documentation</a></li>
+					<!-- <li><a href="javascript:;">Documentation</a></li> -->
 				</ul>
 
-				<div class="nav pull-right"><a href="javascript:;" class="jqplayer-logo"><span>jQPlayer</span></a></div>
+				<div class="nav pull-right">
+					<a href="http://jqplayer.vebersol.net" class="jqplayer-logo"><span>jQPlayer</span></a>
+				</div>
 			</div>
 		</div>
 
