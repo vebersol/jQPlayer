@@ -1,5 +1,6 @@
 .sass-cache
 demo/media/*
+demo/stylesheets/css/bootstrap
 *.ogg
 *.mp4
 *.mov
