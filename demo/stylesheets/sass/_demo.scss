@@ -1,9 +1,3 @@
- @media (min-width: 981px) {
-	body {
-		padding-top: 60px;
-	}
-}
-
 .jqplayer-logo {
 	display: block;
 	margin: 5px 10px 0 0;
@@ -24,6 +18,11 @@
 	}
 }
 
+.video-container {
+	width: auto;
+	margin: 0 auto;
+}
+
 #video-element.p720 .html-player-subtitle {
 	font-size:28px;
 }
@@ -36,7 +35,10 @@
 
 #video-element {
 	position:relative;
+	width: 615px;
+	height: 346px;
 	padding-bottom:12px;
+	margin: 0 auto;
 	background-color: black;
 }
 
@@ -47,4 +49,38 @@
 	width: 100% !important;
 	height: 100% !important;
 	padding:0;
+}
+
+@media (min-width: 980px) {
+	body {
+		padding-top: 60px;
+	}
+}
+
+@media (min-width: 1200px) {
+	#video-element {
+		width: 615px;
+		height: 346px;
+	}
+}
+ 
+@media (min-width: 768px) and (max-width: 979px) {
+	#video-element {
+		width: 373px;
+		height: 210px;
+	}
+}
+ 
+@media (max-width: 767px) {
+	#video-element {
+		width: 441px;
+		height: 248px;
+	}
+}
+ 
+@media (max-width: 480px) {
+	#video-element {
+		width: 310px;
+		height: 174px;
+	}
 }
