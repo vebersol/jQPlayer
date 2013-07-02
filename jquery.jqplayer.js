@@ -635,7 +635,7 @@ var options;
 				videoObj = this.defaultVideo;
 			}
 			
-			if (this.supportHTML5 && (($.browser.safari && /Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)) || $.browser.msie)) {
+			if (this.supportHTML5 && (($.browser.safari && !/Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)) || $.browser.msie)) {
 				return videoObj.source.mp4;
 			}
 			else if (!this.supportHTML5) {
