@@ -846,7 +846,7 @@ var options;
 					
 				}, false);
 				
-				video.addEventListener('play', 
+				video.addEventListener('playing', 
 					function () {
 						if (_this.posterVisible) {
 							_this.hidePoster();
