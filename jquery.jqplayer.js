@@ -12,18 +12,60 @@
 */
 var options;
 (function ($) {
-
+	/**
+	 * Provides a custom HTML5 video player.
+	 *
+	 * @class VideoPlayer
+	 * @param  {jQueryObject} selector The jquery selector where video player will append to.
+	 * @param  {Object} options  Options to customize jQPlayer
+	 */
 	var VideoPlayer = function (selector, options) {
+		/**
+		 * jQuery object that contain element to append the custom video element.
+		 * 
+		 * @property selector
+		 * @type {jQueryObject}
+		 */
 		this.selector = selector;
+		/**
+		 * Options to customize jQPlayer.
+		 * 
+		 * @property options
+		 * @type {Object}
+		 */
 		this.options = options;
-		this.idCounter = 0;
+		/**
+		 * A flag to detect if video is playing or not.
+		 * 
+		 * @property playing
+		 * @type {Boolean}
+		 * @default  false
+		 */
 		this.playing = false;
+		/**
+		 * A flag that will determine if browser supports HTML5 video.
+		 * 
+		 * @property supportHTML5
+		 * @type {Boolean}
+		 * @default true
+		 */
 		this.supportHTML5 = true;
+		/**
+		 * A flag that will determine that poster isn't visible. True when this option is available.
+		 * 
+		 * @property options
+		 * @type {Object}
+		 */
 		this.posterVisible = false;
 		this.init();
 	};
 
 	VideoPlayer.prototype = {
+		/**
+		 * Video Player constructor that verifies if the browser can play HTML5 video and starts it, otherwise, it will load flash fallback (if browser has flash installed).
+		 *
+		 * @method  init
+		 */
 		init: function () {
 			var videoEl = document.createElement('video');
 			if (videoEl.canPlayType) {
@@ -50,6 +92,11 @@ var options;
 			}
 		},
 
+		/**
+		 * Start HTML5 version of jQPlayer
+		 *
+		 * @method  start
+		 */
 		start: function () {
 			this.getDefaultVideo();
 			this.createVideoElement();
@@ -63,6 +110,11 @@ var options;
 			}
 		},
 
+		/**
+		 * Start flash version of jQPlayer (only browser that can't play HTML5 video)
+		 *
+		 * @method startFallback
+		 */
 		startFallback: function () {
 			var _this = this;
 
@@ -79,6 +131,12 @@ var options;
 			}
 		},
 
+		/**
+		 * Method that will show the correct subtitle when video is seeked or version has been changed.
+		 *
+		 * @method  adjustSubtitle
+		 * @param  {HTMLElement} video Current video element
+		 */
 		adjustSubtitle: function (video) {
 			this.subtitleObj.count = 0;
 			this.subtitleObj.current = this.subtitleObj.content[this.subtitleObj.count];
@@ -96,6 +154,11 @@ var options;
 			}
 		},
 
+		/**
+		 * Detect available controls set in options and add events to each of them.
+		 *
+		 * @method bindControls
+		 */
 		bindControls: function () {
 			var _this = this;
 			
@@ -119,6 +182,11 @@ var options;
 			}
 		},
 
+		/**
+		 * Handle events or custom flash events
+		 * 
+		 * @method bindEvents
+		 */
 		bindEvents: function () {
 			var _this = this;
 			var video = this.video.get(0);
@@ -188,6 +256,11 @@ var options;
 			});
 		},
 		
+		/**
+		 * Prevent native text/element selection when using progress bar or volume bar.
+		 *
+		 * @method  blockSelection
+		 */
 		blockSelection: function () {
 			this.volumeFlag = true;
 			document.onselectstart = function () {
@@ -195,6 +268,12 @@ var options;
 			};
 		},
 		
+		/**
+		 * Change video to an alternative quality/version.
+		 *
+		 * @method changeVideoSource
+		 * @param  {HTMLElement} element The version element inside the versions list button.
+		 */
 		changeVideoSource: function (element) {
 			var currentVersionEl = $(element).parent().parent().parent();
 			currentVersion = currentVersionEl.attr('class').replace(this.setClass('alternative-versions') + ' ', '');
@@ -259,6 +338,12 @@ var options;
 			}
 		},
 		
+		/**
+		 * Create the alternative videos button with elements select.
+		 * 
+		 * @method  createAlternative
+		 * @return {jQueryObject} Alternative selector button HTML.
+		 */
 		createAlternative: function () {
 			var element = $('<div class="'+ this.setClass('alternative-versions') +'"></div>');
 			element.append('<span class="'+this.setClass('current-version')+'">'+this.defaultVideo.label+'</span>');
@@ -288,6 +373,14 @@ var options;
 			return element;
 		},
 		
+		/**
+		 * Create a button in control bar.
+		 *
+		 * @method  createButton
+		 * @param  {String} labelName The label name to provide text inside the button.
+		 * @param  {String} className A class to add to this button.
+		 * @return {jQueryObject} The custom button.
+		 */
 		createButton: function (labelName, className) {
 			var btn = $('<div>').addClass(this.setClass(className));
 			var label = $('<span>').html(labelName);
@@ -296,10 +389,21 @@ var options;
 			return btn;
 		},
 		
+		/**
+		 * Create an element to break float elements, it should be provided in order to be supported by older browsers. :(
+		 *
+		 * @method  createClearFloats
+		 * @return {String} An string that contain the HTML markup to be inserted somewhere in control bar.
+		 */
 		createClearFloats: function () {
 			return '<div style="clear:both;width:0;height:0;margin:0;padding:0;"><!-- --></div>';
 		},
 		
+		/**
+		 * Creates control bar and check options to verify which controls should be created inside this progress bar.
+		 *
+		 * @method  createControls
+		 */
 		createControls: function () {
 			this.controls = $('<div>').addClass(this.setClass(this.options.controlsClass));
 			
@@ -343,9 +447,24 @@ var options;
 			this.selector.append(this.controls);
 		},
 		
+		/**
+		 * Creates a custom buttons that has been provided by user in options.
+		 *
+		 * @method  createCustomButton
+		 * @param {String} button button index to get button object.
+		 * @return {jQueryObject} Custom button element.
+		 */
 		createCustomButton: function (button) {
 			var buttonElement = null;
 			var buttonObj = this.options.customButtons[button];
+			/**
+			 * @property {Object} button
+			 *	        		@param {String} button.label A text to put inside the custom button
+			 *			@param {String} button.className A class to add in custom button element
+			 *			@param {String} [button.url] An URL to put in link target.
+			 *			@param {String} [button.target] The target window when url is available. Ex.: _blank, _self, _parent
+			 *			@param {Function} [button.onclick] A function to be executed on click. If url is set, this option won't be applied.
+			 */
 			if (buttonObj) {
 				if (buttonObj.url) {
 					buttonElement = $('<div><a href="'+buttonObj.url+'"></a></div>');
@@ -379,6 +498,11 @@ var options;
 			return false;
 		},
 
+		/**
+		 * Creates the flash element to be inserted inside {{#crossLink "VideoPlayer/selector:property"}}{{/crossLink}} when browser doesn't support HTML5 video.
+		 *
+		 * @method  createFlashElement
+		 */
 		createFlashElement: function () {
 			this.createPoster();
 
@@ -410,6 +534,14 @@ var options;
 			$(this.selector).append(this.video);
 		},
 
+		/**
+		 * Add params and embed tag to fallback flash element.
+		 *
+		 * @method  addParams
+		 * @param  {Object} params  Flash params properties
+		 * @param  {Object} flashvars Flashvars option
+		 * @return {String} All parameters to put inside flash Element
+		 */
 		addParams: function (params, flashvars) {
 			var paramsArr = [],
 				flashVarsArr = [],
@@ -432,6 +564,11 @@ var options;
 			return paramsArr.join(' ') + embed;
 		},
 
+		/**
+		 * Create an image to add in front of video player when video hasn't been played yet.
+		 *
+		 * @method  createPoster
+		 */
 		createPoster: function () {
 			if (this.defaultVideo.poster) {
 				var poster = $('<img src="' + this.defaultVideo.poster + '" class="' + this.setClass('poster') + '">');
@@ -441,6 +578,12 @@ var options;
 			}
 		},
 		
+		/**
+		 * Create the progressbar element to append to control bar.
+		 *
+		 * @method  createProgressBar
+		 * @return {jQueryObject} Progress bar element
+		 */
 		createProgressBar: function () {
 			var progressBar = $('<div>').addClass(this.setClass('progress-bar'));
 			var progressWrapper = $('<div>').addClass(this.setClass('progress-wrapper'));
@@ -457,6 +600,11 @@ var options;
 			return progressBar;
 		},
 		
+		/**
+		 * Create time element.
+		 * @method createTimeDisplay
+		 * @return {jQueryObject} Time element.
+		 */
 		createTimeDisplay: function () {
 			var time = $('<div>').addClass(this.setClass('time-display'));
 			var current = $('<div>').addClass(this.setClass('time-current'));
@@ -470,6 +618,11 @@ var options;
 			return time;
 		},
 		
+		/**
+		 * Create video element with poster and append to {{#crossLink "VideoPlayer/selector:property"}}{{/crossLink}}. Throw error if video element can't be created.
+		 *
+		 * @method  createVideoElement
+		 */
 		createVideoElement: function () {
 			try {
 				this.createPoster();
@@ -493,6 +646,12 @@ var options;
 
 		},
 		
+		/**
+		 * Create volume control bar element to append to {{#crossLink "VideoPlayer/selector:property"}}{{/crossLink}}. Currently only vertical.
+		 *
+		 * @method  createVolumeBar
+		 * @return {jQueryObject} Volume control bar element.
+		 */
 		createVolumeBar: function () {
 			var volume = $('<div>').addClass(this.setClass('volume'));
 			var volumeBtn = $('<div>').addClass(this.setClass('volume-button')).html('Volume');
@@ -514,6 +673,11 @@ var options;
 			return volume;
 		},
 
+		/**
+		 * Bind native video elements to fire custom events.
+		 *
+		 * @method  eventsToBind
+		 */
 		eventsToBind: function () {
 			if ($.inArray('progress', this.options.controls)) {
 				this.setProgressEvents(this.video.get(0));
@@ -528,6 +692,13 @@ var options;
 			}
 		},
 		
+		/**
+		 * Get X position of an HTML Element in window.
+		 *
+		 * @method findPosX
+		 * @param  {jQueryObject} obj The element to find the X position.
+		 * @return {Integer} Current left position of this element
+		 */
 		findPosX: function (obj) {
 			obj = obj.get(0);
 			var curleft = obj.offsetLeft;
@@ -538,6 +709,14 @@ var options;
 			return curleft;
 		},
 		
+
+		/**
+		 * Get Y position of an HTML Element in window.
+		 *
+		 * @method findPosY
+		 * @param  {jQueryObject} obj The element to find the Y position.
+		 * @return {Integer} Current top position of this element
+		 */
 		findPosY: function (obj) {
 			obj = obj.get(0);
 			var curtop = obj.offsetTop;
@@ -548,6 +727,13 @@ var options;
 			return curtop;
 		},
 		
+		/**
+		 * Format seconds to be shown as minutes:seconds.
+		 *
+		 * @method  formatTime
+		 * @param  {Integer} secs Time in seconds
+		 * @return {String} Formated time in minutes and seconds
+		 */
 		formatTime: function (secs) {
 			var minutes = Math.floor(secs / 60);
 			var seconds = Math.round(secs - (minutes * 60));
@@ -564,6 +750,11 @@ var options;
 			return minutes + ':' + seconds;
 		},
 		
+		/**
+		 * To be executed when fullscreen event is fired.
+		 *
+		 * @method  fullscreenEvent
+		 */
 		fullscreenEvent: function () {
 			var fullScreenBtn = $(this.getClass('fullscreen'));
 			fullScreenBtn.toggleClass('fullscreen');
@@ -582,10 +773,23 @@ var options;
 			this.setupProgressBar();
 		},
 		
+		/**
+		 * Get a class with prefix and "." selector. Ex. **.prefix** + **className**
+		 *
+		 * @method  getClass
+		 * @param  {String} name Class name
+		 * @return {String} **.** + **prefix** + **class name**
+		 */
 		getClass: function (name) {
 			return '.' + this.options.prefix + name;
 		},
 		
+		/**
+		 * Sum the size of each element inside control bar, except progress bar.
+		 *
+		 * @method getControlsSize
+		 * @return {Integer} Sum of all elements size
+		 */
 		getControlsSize: function () {
 			var size = 0;
 			var _this = this;
@@ -600,7 +804,18 @@ var options;
 			return size;
 		},
 		
+		/**
+		 * Get the default video when it is defined in options or get the first one when it's not defined.
+		 *
+		 * @method  getDefaultVideo
+		 * @return {Object} {{#crossLink "VideoPlayer/defaultVideo:property"}}{{/crossLink}} property
+		 */
 		getDefaultVideo: function () {
+			/**
+			 * Default video object
+			 *
+			 * @property defaultVideo
+			 */
 			if (this.options.videos[this.options.defaultVideo]) {
 				this.defaultVideo = this.options.videos[this.options.defaultVideo];
 				return this.defaultVideo;
@@ -612,13 +827,23 @@ var options;
 			}
 		},
 		
+		/**
+		 * Get the maximum time of the current subtitle in seconds.
+		 * @method  getMaxTime
+		 * @return {Integer} Maximum time from subtitle in seconds
+		 */
 		getMaxTime: function () {
 			if (typeof(this.subtitleObj.current) != 'undefined') {
 				var timeArr = this.subtitleObj.current[1].split(' --> ');
 				return this.timecodeToSec(timeArr[1]);
 			}
 		},
-		
+
+		/**
+		 * Get the minimum time of the current subtitle in seconds.
+		 * @method  getMinTime
+		 * @return {Integer} Minimum time from subtitle in seconds
+		 */		
 		getMinTime: function () {
 			if (typeof(this.subtitleObj.current) != 'undefined') {
 				var timeArr = this.subtitleObj.current[1].split(' --> ');
@@ -626,10 +851,21 @@ var options;
 			}
 		},
 
+		/**
+		 * Get subtitles from {{#crossLink "VideoPlayer/defaultVideo:property"}}{{/crossLink}}.
+		 * @return {String} Subtitle file to load.
+		 */
 		getSubtitle: function () {
 			return this.defaultVideo.subtitle;
 		},
 		
+		/**
+		 * Get the right video file using the extension that browser supports.
+		 *
+		 * @method  getVideoSource
+		 * @param  {Object} videoObj A video object set in options or the video object set in {{#crossLink "VideoPlayer/defaultVideo:property"}}{{/crossLink}}
+		 * @return {String} Video file to load
+		 */
 		getVideoSource: function (videoObj) {
 			if (!videoObj) {
 				videoObj = this.defaultVideo;
@@ -648,23 +884,21 @@ var options;
 			
 			return videoObj.source.webm;
 		},
-		
-		hideControls: function (controls) {
-			controls.animate({bottom: '-' + controls.height() + 'px'});
-		},
 
+		/**
+		 * Hide poster after user clicks on play
+		 *
+		 * @method  hidePoster
+		 */
 		hidePoster: function () {
 			this.selector.find(this.getClass('poster')).hide();
 			this.posterVisible = false;
 		},
 		
-		incrementId: function () {
-			var id = this.options.videoId + this.idCounter;
-			this.idCounter++;
-			
-			return id;
-		},
-		
+		/**
+		 * Mute video when volume button is pressed up.
+		 * @method muteVideo
+		 */
 		muteVideo: function () {
 			var volumeButton = this.selector.find(this.getClass('volume-button'));	
 			var volumePosition = this.selector.find(this.getClass('volume-position'));
@@ -699,6 +933,11 @@ var options;
 			}
 		},
 
+		/**
+		 * Event fired when video is paused.
+		 * 
+		 * @method pauseEvent
+		 */
 		pauseEvent: function (element) {
 			$(element).parent().find(this.getClass('play')).removeClass('playing').addClass('paused');	
 			
@@ -709,6 +948,11 @@ var options;
 			this.playing = false;
 		},
 
+		/**
+		 * Event fired when video plays.
+		 *
+		 * @method  playEvent
+		 */
 		playEvent: function (element) {
 			var _this = this;
 			var buffer = $(this.getClass('progress-buffer'));
@@ -726,6 +970,11 @@ var options;
 			this.playing = true;
 		},
 		
+		/**
+		 * Play/Pause action.
+		 * 
+		 * @method playPause
+		 */
 		playPause: function () {
 			var videoObj = this.video.get(0);
 
@@ -745,11 +994,24 @@ var options;
 			}
 		},
 		
+		/**
+		 * Reset video controls when video source changes to an alternative version.
+		 *
+		 * @method resetVideo
+		 */
 		resetVideo: function () {
 			this.controls.find(this.getClass('video-controls') + ', ' + this.getClass('progress-buffer')).css('width', 0);
 			clearInterval(this.bufferInterval);
 		},
 		
+		/**
+		 * When progress bar is changed by user drag event, it changes video to the selected time.
+		 *
+		 * @method  seekTo
+		 * @param  {Integer} xPos the left position of progressbar to get the percentage of video to go to.
+		 * @param  {jQueryObject} progWrapper The progress bar wrapper element
+		 * @param  {HTMLElement} video Video element
+		 */
 		seekTo: function (xPos, progWrapper, video) {
 			var progressBar = $(this.getClass('progress-play'));
 			var progWidth = Math.max(0, Math.min(1, ( xPos - this.findPosX(progWrapper) ) / progWrapper.width() ));
@@ -768,6 +1030,12 @@ var options;
 			progressBar.width(width);
 		},
 		
+		/**
+		 * Add mouse events to progress bar.
+		 *
+		 * @method  seekVideoSetup
+		 * @param  {HTMLElement} video Video element
+		 */
 		seekVideoSetup: function (video) {
 			var progWrapper = $(video).parent().find(this.getClass('progress-wrapper'));
 			if (progWrapper.length > 0) {
@@ -798,10 +1066,23 @@ var options;
 			}
 		},
 		
+		/**
+		 * Set a class with prefix. Ex. **prefix** + **className**
+		 *
+		 * @method  setClass
+		 * @param  {String} name Class name
+		 * @return {String} **prefix** + **class name**
+		 */
 		setClass: function (name) {
 			return this.options.prefix + name;
 		},
 		
+		/**
+		 * Setup native events of video and custom events of flash.
+		 *
+		 * @method  setProgressEvents
+		 * @param  {HTMLElement} video Video element
+		 */
 		setProgressEvents: function (video) {
 			var _this = this;
 			var scrubbing = $(this.getClass('progress-play'));
@@ -920,6 +1201,11 @@ var options;
 			}
 		},
 		
+		/**
+		 * Define progress bar size relative to controls bar size.
+		 *
+		 * @method  setupProgressBar
+		 */
 		setupProgressBar: function () {
 			var progressBar = this.selector.find(this.getClass('progress-bar'));
 			var progBarWidth = this.selector.width();
