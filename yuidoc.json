@@ -1,0 +1,11 @@
+{
+	"name": "jQPlayer",
+	"description": "HTML5 Video Player Plugin for jQuery",
+	// "logo": "",
+	"options": {
+		"outdir": "docs",
+		"ignorePaths":  ["docs", "demo", "source", "swf"],
+		"exclude": "jquery.jqplayer.min.js",
+		"paths": "."
+	}
+}
