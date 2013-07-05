@@ -51,6 +51,13 @@
 	padding:0;
 }
 
+#github-label {
+	position: absolute;
+	top: 41px;
+	right: 0;
+	border: 0;
+}
+
 @media (min-width: 980px) {
 	body {
 		padding-top: 60px;
@@ -77,6 +84,12 @@
 		height: 210px;
 	}
 }
+
+@media (max-width: 979px) {
+	#github-label {
+		top: 50px;
+	}
+}
  
 @media (max-width: 767px) {
 	#video-element {
@@ -89,5 +102,9 @@
 	#video-element {
 		width: 310px;
 		height: 174px;
+	}
+
+	#github-label {
+		display: none;
 	}
 }
