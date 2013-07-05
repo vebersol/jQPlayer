@@ -63,6 +63,13 @@
 		height: 346px;
 	}
 }
+
+@media (min-width: 980px) and (max-width: 1199px) {
+	#video-element {
+		width: 480px;
+		height: 270px;
+	}
+}
  
 @media (min-width: 768px) and (max-width: 979px) {
 	#video-element {
