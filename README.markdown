@@ -107,16 +107,20 @@ A prefix to add for all used classes on the used HTML.
 A saparator to be used between current time and duration time.  
 *Default value: '/'*
 
-* **videoId:** (String)  
-Video element will assume an id like 'videoId' + incremental integer.  
-*Default value: 'video-'*
-
 * **fallbackOptions:** (String)  
 Define the relative path to get videos and the swf path to embed the flash file.  
 *Default values: {*  
   *relativePath: '../',*  
   *movie: 'media/jQPlayer.swf'*  
 *}*
+
+##### Deprecated
+
+* **videoId:** (String)  
+Video element will assume an id like 'videoId' + incremental integer.  
+*Default value: 'video-'*  
+
+*It have been removed, since the way to build player has changed.*
 
 # How to setup a custom button
 
